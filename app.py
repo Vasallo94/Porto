@@ -1,27 +1,27 @@
 # --------------------LIBRERÍAS----------------------------#
-import cufflinks
-from plotly.offline import iplot, init_notebook_mode
-import plotly.subplots as sp
-import chart_studio.plotly as py
-import plotly_express as px
-import plotly.graph_objs as go
-from folium.plugins import HeatMap, MarkerCluster
-from branca.colormap import LinearColormap
-import geopandas as gpd
-from folium.plugins import FastMarkerCluster, FloatImage
-import folium
-import warnings
 import json
 import os
-from utils.funciones import *
+import warnings
+from webbrowser import get
+
+import chart_studio.plotly as py
+import cufflinks
+import folium
+import geopandas as gpd
 import numpy as np
 import pandas as pd
-import streamlit as st
-from streamlit_lottie import st_lottie
+import plotly.graph_objs as go
+import plotly.subplots as sp
+import plotly_express as px
 import requests
-from webbrowser import get
+from branca.colormap import LinearColormap
+from folium.plugins import (FastMarkerCluster, FloatImage, HeatMap,MarkerCluster)
+from plotly.offline import init_notebook_mode, iplot
 from streamlit_folium import st_folium
+from streamlit_lottie import st_lottie
+from utils.funciones import *
 
+import streamlit as st
 
 sns.set()
 warnings.simplefilter(action='ignore', category=FutureWarning)
