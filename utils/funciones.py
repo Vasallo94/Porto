@@ -16,15 +16,23 @@ import matplotlib.pyplot as plt
 
 
 def filtrar_por_distancia(df, distancia_km, lat_ref=41.1496, lon_ref=-8.6109):
-    # Calcular la distancia entre cada localización y las coordenadas de referencia
-    R = 6371  # Radio medio de la Tierra en km
+    # convert latitude and longitude columns to numeric
+    df['latitude'] = pd.to_numeric(df['latitude'], errors='coerce')
+    df['longitude'] = pd.to_numeric(df['longitude'], errors='coerce')
+
+    # drop any rows with missing values in latitude or longitude columns
+    df = df.dropna(subset=['latitude', 'longitude'])
+
+    # calculate distance from reference point to each row using Haversine formula
+    R = 6371  # Earth's radius in km
     dlat = np.radians(df["latitude"].astype(float) - lat_ref)
     dlon = np.radians(df["longitude"].astype(float) - lon_ref)
     a = np.sin(dlat/2)**2 + np.cos(np.radians(lat_ref)) * \
         np.cos(np.radians(df["latitude"])) * np.sin(dlon/2)**2
     c = 2 * np.arcsin(np.sqrt(a))
     df["distancia"] = R * c
-    # Filtrar las localizaciones según la distancia
+
+    # filter DataFrame to include only rows within maximum distance
     df_filtrado = df.loc[df["distancia"] < distancia_km]
 
     return df_filtrado
