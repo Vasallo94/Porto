@@ -18,36 +18,16 @@ import matplotlib.pyplot as plt
 def filtrar_por_distancia(df, distancia_km, lat_ref=41.1496, lon_ref=-8.6109):
     # Calcular la distancia entre cada localización y las coordenadas de referencia
     R = 6371  # Radio medio de la Tierra en km
-    dlat = np.radians(df["latitude"] - lat_ref)
-    dlon = np.radians(df["longitude"] - lon_ref)
+    dlat = np.radians(df["latitude"].astype(float) - lat_ref)
+    dlon = np.radians(df["longitude"].astype(float) - lon_ref)
     a = np.sin(dlat/2)**2 + np.cos(np.radians(lat_ref)) * \
         np.cos(np.radians(df["latitude"])) * np.sin(dlon/2)**2
     c = 2 * np.arcsin(np.sqrt(a))
     df["distancia"] = R * c
-
     # Filtrar las localizaciones según la distancia
     df_filtrado = df.loc[df["distancia"] < distancia_km]
 
     return df_filtrado
-
-
-def crear_df_con_distancias_redondeadas(df, lat_ref=41.1496, lon_ref=-8.6109):
-    # Calcular la distancia entre cada localización y las coordenadas de referencia
-    R = 6371  # Radio medio de la Tierra en km
-    dlat = np.radians(df["latitude"] - lat_ref)
-    dlon = np.radians(df["longitude"] - lon_ref)
-    a = np.sin(dlat/2)**2 + np.cos(np.radians(lat_ref)) * \
-        np.cos(np.radians(df["latitude"])) * np.sin(dlon/2)**2
-    c = 2 * np.arcsin(np.sqrt(a))
-    df["distancia"] = R * c
-
-    # Redondear las distancias a números enteros
-    df["distancia_redondeada"] = np.round(df["distancia"]).astype(int)
-
-    # Crear un nuevo dataframe con las columnas de interés
-    df_con_distancias = df.drop('host_about', axis=1)
-
-    return df_con_distancias
 
 
 def fritas(df):
