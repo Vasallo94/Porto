@@ -57,14 +57,13 @@ def main():
 
     # first column, this is the lottie file
     with col1:
-        st.title(
-            "Análisis de la situación de Airbnb en la ciudad de Oporto y sus alrededores")
-
-    # second column, this is the title
-    with col2:
         lottie_url_hello = "https://assets5.lottiefiles.com/packages/lf20_7D0uqz.json"
         lottie_hello = load_lottieurl(lottie_url_hello)
         st_lottie(lottie_hello, key="hello", height=150, width=150, loop=True)
+    # second column, this is the title
+    with col2:
+        st.title(
+            "Análisis de la situación de Airbnb en la ciudad de Oporto y sus alrededores")
     with col3:
         image = Image.open('img/porto.jpeg')
 
@@ -231,7 +230,7 @@ def main():
 
 # -------------------------------------------------------TAB 2-----------------------------------------------------#
 
-    tab_plots = tabs[1]  # this is the first tab
+    tab_plots = tabs[1]  # this is the second tab
     with tab_plots:
 
         st.title('Lorem ipsum dolor sit amet...')
@@ -286,11 +285,39 @@ def main():
             st.write(
                 "Aquí se podría poner el código que muestra los tipos de habitaciones pero no funciona aún.")
             # -------------------------------------------------------TAB 3-----------------------------------------------------#
+    tab_plots = tabs[2]  # this is the third tab
+    with tab_plots:
+
+        st.title('Lorem ipsum dolor sit amet...')
+        st.subheader('Lorem ipsum dolor sit amet...')
+
+        st.write('Lorem ipsum dolor sit amet...')
+
+        cols = st.columns(2)
+        with cols[0]:
+            st.write('Lorem ipsum dolor sit amet...')
+
+        with cols[1]:
+            st.write('Lorem ipsum dolor sit amet...')
 
             # -------------------------------------------------------TAB 4-----------------------------------------------------#
+    tab_plots = tabs[3]  # this is the third tab
+    with tab_plots:
+
+        st.title('Lorem ipsum dolor sit amet...')
+        st.subheader('Lorem ipsum dolor sit amet...')
+
+        st.write('Lorem ipsum dolor sit amet...')
+
+        cols = st.columns(2)
+        with cols[0]:
+            st.write('Lorem ipsum dolor sit amet...')
+
+        with cols[1]:
+            st.write('Lorem ipsum dolor sit amet...')
 
 
-            # -------------------------------------------------------TAB 5-----------------------------------------------------#
-            # -------------------------------------------------------TAB 6-----------------------------------------------------#
+        # -------------------------------------------------------TAB 5-----------------------------------------------------#
+        # -------------------------------------------------------TAB 6-----------------------------------------------------#
 if __name__ == '__main__':
     main()
