@@ -1,0 +1,67 @@
+{
+    "address": "Porto, portugal ",
+    "aoi_bounds": [
+      -8.625470253148663,
+      41.13835358401058,
+      -8.59610658352966,
+      41.160548794451465
+    ],
+    "draw_settings": {
+      "urban": {
+        "cmap": [
+          "#433633",
+          "#FF5E5B",
+          "#FF5E5B"
+        ],
+        "ec": "#2F3737",
+        "lw": 0.5,
+        "zorder": 5
+      },
+      "water": {
+        "fc": "#a8e1e6",
+        "ec": "#9bc3d4",
+        "hatch_c": "#2F3737",
+        "hatch": "ooo...",
+        "lw": 1,
+        "zorder": 3
+      },
+      "grassland": {
+        "fc": "#8BB174",
+        "ec": "#A7C497",
+        "hatch": "ooo...",
+        "hatch_c": "#2F3737",
+        "lw": 1,
+        "zorder": 1
+      },
+      "woodland": {
+        "fc": "#64B96A",
+        "ec": "#2F3737",
+        "lw": 1,
+        "zorder": 2
+      },
+      "streets": {
+        "fc": "#2F3737",
+        "zorder": 4,
+        "ec": 475657
+      },
+      "other": {
+        "fc": "#F2F4CB",
+        "ec": "#2F3737",
+        "lw": 1,
+        "zorder": 3
+      }
+    },
+    "name_on": true,
+    "name": "Porto",
+    "font_size": 25,
+    "font_color": "#2F3737",
+    "text_x": 17,
+    "text_y": -42,
+    "text_rotation": -20,
+    "shape": "circle",
+    "contour_width": 1,
+    "contour_color": "#2F3537",
+    "bg_shape": "circle",
+    "bg_buffer": 2,
+    "bg_color": "#F2F4CB"
+  }
