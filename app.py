@@ -15,7 +15,8 @@ import plotly.subplots as sp
 import plotly_express as px
 import requests
 from branca.colormap import LinearColormap
-from folium.plugins import (FastMarkerCluster, FloatImage, HeatMap,MarkerCluster)
+from folium.plugins import (
+    FastMarkerCluster, FloatImage, HeatMap, MarkerCluster)
 from plotly.offline import init_notebook_mode, iplot
 from streamlit_folium import st_folium
 from streamlit_lottie import st_lottie
@@ -133,11 +134,11 @@ def main():
             locations = list(zip(lats, lons))
 
             # Le das una lat y lon inicial y un zoom inicial para representar el mapa
-            map1 = folium.Map(location=[41.1496, -8.6109], zoom_start=12)
+            map1 = folium.Map(location=[41.1496, -8.6109], zoom_start=15)
             # Te añade las localizaciones al mapa generado anteriormente
             FastMarkerCluster(data=locations).add_to(map1)
             folium.Marker(location=[41.1496, -8.6109]).add_to(map1)
-            st_folium(map1, width=2000, height=600)
+            st_folium(map1, width=2000, height=600, returned_objects=[])
 
         cols = st.columns(2)
         with cols[0]:
@@ -179,7 +180,7 @@ def main():
                 }
 
             # Create map
-            map3 = folium.Map(location=[41.1496, -8.6109], zoom_start=11)
+            map3 = folium.Map(location=[41.1496, -8.6109], zoom_start=15)
 
             # Add geojson layer to map with tooltip and style and highlight functions
             folium.GeoJson(
@@ -196,7 +197,7 @@ def main():
 
             # Add color scale to map
             map3.add_child(color_scale)
-            st_folium(map3,  width=2000, height=600)
+            st_folium(map3,  width=2000, height=600, returned_objects=[])
 
         with cols[1]:
             # TODO hacer que el mapa se centre bien
@@ -209,7 +210,7 @@ def main():
                 ['green', 'yellow', 'red'], vmin=min_price, vmax=max_price, caption='Precio')
             # Create the map
             calorsita = folium.Map(
-                location=[41.1496, -8.6109], tiles='cartodbpositron', zoom_start=12)
+                location=[41.1496, -8.6109], tiles='cartodbpositron', zoom_start=15)
 
             # Add a heatmap to the base map
             HeatMap(data=df_slider[['latitude', 'longitude', 'price']],
@@ -221,7 +222,7 @@ def main():
             calorsita.add_child(color_scale)
 
             # Display the map
-            st_folium(calorsita, width=2000, height=600)
+            st_folium(calorsita, width=2000, height=600, returned_objects=[])
 
 
 # -------------------------------------------------------TAB 2-----------------------------------------------------#
@@ -278,63 +279,11 @@ def main():
             st.plotly_chart(accomm, use_container_width=True)
 
         with cols[1]:
-            # ? Poner cuando esté mejorado el código
-            st.write("PRUEBA")
-            # con esto vamos a crear una agrupación automática según los marcadores cercanos basado en el tipo de habitación para mejorar la carga.
-            map_type = folium.Map(location=[41.1496, -8.6109], zoom_start=11)
-
-            # Creamos colorines para cada tipo de habitación
-            colors = {'Entire home/apt': 'orange', 'Private room': 'red',
-                      'Shared room': 'purple', 'Hotel room': 'green'}
-
-            def room_type_icon(room_type):
-                color = colors.get(room_type, 'blue')
-                return folium.Icon(color=color, icon_color=color, prefix='fa', icon='circle')
-
-            # Crear una lista vacía para las coordenadas y datos de las habitaciones
-            room_data = []
-            for i in range(len(df_slider)):
-                room_type = df_slider['room_type'][i]
-                latitude = df_slider['latitude'][i]
-                longitude = df_slider['longitude'][i]
-                color = colors.get(room_type, 'blue')
-                # Añadir la información de la habitación a la lista
-                room_data.append([latitude, longitude, room_type, color])
-
-            # Usar FastMarkerCluster para agrupar los marcadores de habitaciones cercanas basados en el tipo de habitación
-            marker_cluster = FastMarkerCluster(
-                room_data, callback=""" function (row) { var icon = L.AwesomeMarkers.icon({ icon: 'circle', prefix: 'fa', markerColor: row[3], iconColor: row[3] }); var marker = L.marker(new L.LatLng(row[0], row[1]), {icon: icon}); marker.bindPopup(row[2]); return marker; } """)
-            marker_cluster.add_to(map_type)
-
-            # el html mejor así
-            legend_html = '''
-            <div style="bottom: 30px;
-                        right: 30px;
-                        width: 120px;
-                        height: 200px;
-                        border:2px solid grey;
-                        z-index:9999;
-                        font-size:14px;
-                        background-color: rgba(255, 255, 255, 0.7); ">
-                <p style="margin: 10px;"><b>Legend</b></p>
-                <p style="margin: 10px;"><span style='color: orange;'>&#9679;</span> Entire home/apt</p>
-                <p style="margin: 10px;"><span style='color: red;'>&#9679;</span> Private room</p>
-                <p style="margin: 10px;"><span style='color: purple;'>&#9679;</span> Shared room</p>
-                <p style="margin: 10px;"><span style='color: green;'>&#9679;</span> Hotel room</p>
-            </div>
-            '''
-
-            legend = folium.features.DivIcon(html=legend_html)
-            folium.Marker(location=[41.1496, -8.6109],
-                          icon=legend).add_to(map_type)
-
-            # Mostramos mapa
-            st_folium(map_type,  width=2000, height=600)
-            # TODO HAY QUE HACER QUE LA LEYENDA SE COLOQUE EN SU PUTO SITIO DE UNA VEZ
+            st.write(
+                "Aquí se podría poner el código que muestra los tipos de habitaciones pero no funciona aún.")
             # -------------------------------------------------------TAB 3-----------------------------------------------------#
 
             # -------------------------------------------------------TAB 4-----------------------------------------------------#
-
 
             # -------------------------------------------------------TAB 5-----------------------------------------------------#
             # -------------------------------------------------------TAB 6-----------------------------------------------------#
