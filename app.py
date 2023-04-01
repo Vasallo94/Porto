@@ -337,8 +337,8 @@ def main():
             if scores_col.dtype != 'float64':
                 scores_col = pd.to_numeric(
                     scores_col, errors='coerce').fillna(0)
-            scores = go.Figure(go.Histogram(x=scores_col,
-                                            histnorm='percent', nbinsx=800, histfunc="count"))
+            scores = go.Figure(go.Histogram(
+                x=scores_col, nbinsx=800, histfunc="count"))
             scores.update_layout(title=category.capitalize(),
                                  xaxis_title="Average review score",
                                  yaxis_title="Percentage of listings",
