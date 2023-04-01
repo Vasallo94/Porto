@@ -66,7 +66,7 @@ def main():
         lottie_hello = load_lottieurl(lottie_url_hello)
         st_lottie(lottie_hello, key="hello", height=150, width=150, loop=True)
     with col3:
-        image = Image.open('img/porto.jpg')
+        image = Image.open('img/porto.jpeg')
 
         st.image(image, caption='Porto by prettymaps')
 # -----------------------------------------------LECTURA DE DATOS Y PREPROCESAMIENTO------------------------------------#
