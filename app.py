@@ -340,7 +340,7 @@ def main():
                                  xaxis_title="Average review score",
                                  yaxis_title="Percentage of listings",
                                  font_size=14)
-            histograms.append(fig)
+            histograms.append(scores)
 
         # Create subplot with 2 rows and 3 columns, with titles for each subplot
         scores = make_subplots(rows=2, cols=3, subplot_titles=(
