@@ -335,7 +335,7 @@ def main():
                       'communication', 'checkin', 'accuracy']
         for category in categories:
             scores = go.Figure(go.Histogram(x=listings10[f'review_scores_{category}'],
-                                            histnorm='percent', nbinsx=50))
+                                            histnorm='percent', nbinsx=800))
             scores.update_layout(title=category.capitalize(),
                                  xaxis_title="Average review score",
                                  yaxis_title="Percentage of listings",
