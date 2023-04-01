@@ -333,11 +333,15 @@ def main():
         categories = ['location', 'cleanliness', 'value',
                       'communication', 'checkin', 'accuracy']
         for category in categories:
-            scores = go.Figure(go.Histogram(x=listings10[f'review_scores_{category}'],
-                                            histnorm='count', nbinsx=800))
+            scores_col = listings10[f'review_scores_{category}']
+            if scores_col.dtype != 'float64':
+                scores_col = pd.to_numeric(
+                    scores_col, errors='coerce').fillna(0)
+            scores = go.Figure(go.Histogram(x=scores_col,
+                                            histnorm='percent', nbinsx=800))
             scores.update_layout(title=category.capitalize(),
                                  xaxis_title="Average review score",
-                                 yaxis_title="Number of listings",
+                                 yaxis_title="Percentage of listings",
                                  font_size=14)
             histograms.append(scores)
 
@@ -363,7 +367,6 @@ def main():
 
         # Show the plot
         st.plotly_chart(scores)
-
         # -------------------------------------------------------TAB 6-----------------------------------------------------#
     tab_plots = tabs[5]  # this is the third tab
     with tab_plots:
