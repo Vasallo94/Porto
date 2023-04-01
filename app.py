@@ -318,7 +318,7 @@ def main():
             st.write('Lorem ipsum dolor sit amet...')
 
         # -------------------------------------------------------TAB 5-----------------------------------------------------#
-    tab_plots = tabs[3]  # this is the third tab
+    tab_plots = tabs[4]  # this is the third tab
     with tab_plots:
 
         st.title('Disponibilidad y precios de los alojamientos para el 2023')
@@ -335,7 +335,7 @@ def main():
                       'communication', 'checkin', 'accuracy']
         for category in categories:
             scores = go.Figure(go.Histogram(x=listings10[f'review_scores_{category}'],
-                                            histnorm='percent', nbinsx=10))
+                                            histnorm='percent', nbinsx=50))
             scores.update_layout(title=category.capitalize(),
                                  xaxis_title="Average review score",
                                  yaxis_title="Percentage of listings",
@@ -366,5 +366,21 @@ def main():
         st.plotly_chart(scores)
 
         # -------------------------------------------------------TAB 6-----------------------------------------------------#
+    tab_plots = tabs[5]  # this is the third tab
+    with tab_plots:
+
+        st.title('Lorem ipsum dolor sit amet...')
+        st.subheader('Lorem ipsum dolor sit amet...')
+
+        st.write('Lorem ipsum dolor sit amet...')
+
+        cols = st.columns(2)
+        with cols[0]:
+            st.write('Lorem ipsum dolor sit amet...')
+
+        with cols[1]:
+            st.write('Lorem ipsum dolor sit amet...')
+
+
 if __name__ == '__main__':
     main()
