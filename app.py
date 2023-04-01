@@ -327,7 +327,7 @@ def main():
         st.write('Lorem ipsum dolor sit amet...')
 
         # Select listings with at least 10 reviews
-        listings10 = df_distancia[df_distancia['number_of_reviews'] >= 10]
+        listings10 = df_slider[df_slider['number_of_reviews'] >= 10]
 
         # Create histogram figures for each review category
         histograms = []
