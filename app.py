@@ -22,7 +22,7 @@ from streamlit_folium import st_folium
 from streamlit_lottie import st_lottie
 from utils.funciones import *
 import json
-
+from PIL import Image
 import streamlit as st
 
 sns.set()
@@ -66,7 +66,9 @@ def main():
         lottie_hello = load_lottieurl(lottie_url_hello)
         st_lottie(lottie_hello, key="hello", height=150, width=150, loop=True)
     with col3:
-        st.image('img/porto.jpg')
+        image = Image.open('img/porto.jpg')
+
+        st.image(image, caption='Porto by prettymaps')
 # -----------------------------------------------LECTURA DE DATOS Y PREPROCESAMIENTO------------------------------------#
 
     df_calendar = pd.read_csv('http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/data/calendar.csv.gz',
