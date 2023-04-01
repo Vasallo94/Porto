@@ -3,7 +3,6 @@ chart-studio
 cufflinks
 folium
 geopandas
-json
 numpy
 pandas
 plotly
