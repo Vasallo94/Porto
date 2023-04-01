@@ -320,7 +320,6 @@ def main():
         # -------------------------------------------------------TAB 5-----------------------------------------------------#
     tab_plots = tabs[4]  # this is the third tab
     with tab_plots:
-
         st.title('Disponibilidad y precios de los alojamientos para el 2023')
         st.subheader('Lorem ipsum dolor sit amet...')
 
@@ -335,10 +334,10 @@ def main():
                       'communication', 'checkin', 'accuracy']
         for category in categories:
             scores = go.Figure(go.Histogram(x=listings10[f'review_scores_{category}'],
-                                            histnorm='percent', nbinsx=800))
+                                            histnorm='count', nbinsx=800))
             scores.update_layout(title=category.capitalize(),
                                  xaxis_title="Average review score",
-                                 yaxis_title="Percentage of listings",
+                                 yaxis_title="Number of listings",
                                  font_size=14)
             histograms.append(scores)
 
