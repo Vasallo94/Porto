@@ -366,7 +366,7 @@ def main():
         )
 
         # Show the plot
-        st.plotly_chart(scores)
+        st.plotly_chart(scores, use_container_width=True)
         # -------------------------------------------------------TAB 6-----------------------------------------------------#
     tab_plots = tabs[5]  # this is the third tab
     with tab_plots:
