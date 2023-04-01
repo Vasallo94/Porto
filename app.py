@@ -24,6 +24,7 @@ from utils.funciones import *
 import json
 from PIL import Image
 import streamlit as st
+from plotly.subplots import make_subplots
 
 sns.set()
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -100,7 +101,7 @@ def main():
 # ---------------------------------------------------------------TABS---------------------------------------------------#
     st.title("Selecciona lo que te interese")
     tabs = st.tabs(["Agrupaciones parroquiales: freguesias", "Tipos de propiedades y alojamientos",
-                   "Número de alojados", "Consejos al turismo", 'MAS!'])
+                   "Número de alojados", "Consejos al turismo", 'Reseñas de los huéspedes', 'Disponibilidad y precios para el 2023'])
 
     # -------------------------------------------------------TAB 1-----------------------------------------------------#
     tab_plots = tabs[0]  # this is the first tab
@@ -316,8 +317,54 @@ def main():
         with cols[1]:
             st.write('Lorem ipsum dolor sit amet...')
 
-
         # -------------------------------------------------------TAB 5-----------------------------------------------------#
+    tab_plots = tabs[3]  # this is the third tab
+    with tab_plots:
+
+        st.title('Disponibilidad y precios de los alojamientos para el 2023')
+        st.subheader('Lorem ipsum dolor sit amet...')
+
+        st.write('Lorem ipsum dolor sit amet...')
+
+        # Select listings with at least 10 reviews
+        listings10 = df_distancia[df_distancia['number_of_reviews'] >= 10]
+
+        # Create histogram figures for each review category
+        histograms = []
+        categories = ['location', 'cleanliness', 'value',
+                      'communication', 'checkin', 'accuracy']
+        for category in categories:
+            scores = go.Figure(go.Histogram(x=listings10[f'review_scores_{category}'],
+                                            histnorm='percent', nbinsx=10))
+            scores.update_layout(title=category.capitalize(),
+                                 xaxis_title="Average review score",
+                                 yaxis_title="Percentage of listings",
+                                 font_size=14)
+            histograms.append(fig)
+
+        # Create subplot with 2 rows and 3 columns, with titles for each subplot
+        scores = make_subplots(rows=2, cols=3, subplot_titles=(
+            "Location", "Cleanliness", "Value", "Communication", "Arrival", "Accuracy"))
+
+        # Add each bar chart to the subplot
+        for i, fig in enumerate(histograms):
+            row = i // 3 + 1
+            col = i % 3 + 1
+            scores.add_trace(fig['data'][0], row=row, col=col)
+
+        # Update layout for the subplot
+        scores.update_layout(
+            title_text="Review Scores",
+            height=800,
+            width=1000,
+            font_size=12,
+            showlegend=False,
+            template='plotly_dark'
+        )
+
+        # Show the plot
+        st.plotly_chart(scores)
+
         # -------------------------------------------------------TAB 6-----------------------------------------------------#
 if __name__ == '__main__':
     main()
