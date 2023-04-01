@@ -21,7 +21,7 @@ from plotly.offline import init_notebook_mode, iplot
 from streamlit_folium import st_folium
 from streamlit_lottie import st_lottie
 from utils.funciones import *
-import json 
+import json
 
 import streamlit as st
 
@@ -53,7 +53,7 @@ def main():
 
 # -----------------------------------------------------------------HEADER----------------------------------------------------------------
 
-    col1, col2, col3  = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
     # first column, this is the lottie file
     with col1:
@@ -66,8 +66,7 @@ def main():
         lottie_hello = load_lottieurl(lottie_url_hello)
         st_lottie(lottie_hello, key="hello", height=150, width=150, loop=True)
     with col3:
-        with open("img/porto.json", "r") as f:
-            EXAMPLES = json.load(f)
+        st.image('img/porto.jpg')
 # -----------------------------------------------LECTURA DE DATOS Y PREPROCESAMIENTO------------------------------------#
 
     df_calendar = pd.read_csv('http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/data/calendar.csv.gz',
@@ -287,6 +286,7 @@ def main():
             # -------------------------------------------------------TAB 3-----------------------------------------------------#
 
             # -------------------------------------------------------TAB 4-----------------------------------------------------#
+
 
             # -------------------------------------------------------TAB 5-----------------------------------------------------#
             # -------------------------------------------------------TAB 6-----------------------------------------------------#
