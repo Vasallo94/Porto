@@ -12,3 +12,4 @@ plotly-express
 streamlit-folium
 streamlit-lottie
 scikit-learn
+seaborn
