@@ -219,7 +219,7 @@ def main():
             st.write(
                 "Mapa de precios en 3D")
             st.pydeck_chart(pdk.Deck(
-                map_style='cartodbpositron',
+                map_style=None,
                 initial_view_state=pdk.ViewState(
                     latitude=41.1496,
                     longitude=-8.6109,
