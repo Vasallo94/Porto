@@ -213,7 +213,7 @@ def main():
         with cols[1]:
             # Display the map
             df_slider = df_slider.fillna(0)
-            st.wri te(
+            st.write(
                 "Mapa de precios en 3D")
             st.pydeck_chart(pdk.Deck(
                 map_style=None,
