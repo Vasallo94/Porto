@@ -262,7 +262,7 @@ def main():
         cols = st.columns(2)
         with cols[0]:
             feq = df_slider['neighbourhood'].value_counts(
-            ).sort_values(ascending=False)
+            ).sort_values(ascending=True)
             feq = feq[feq > 500]
 
             fig1 = px.bar(feq, x=feq.values, y=feq.index,
@@ -286,7 +286,7 @@ def main():
 
             proper = px.bar(prop, barmode='stack', orientation='h',
                             color_discrete_sequence=[
-                                "rgb(255, 102, 102)", "rgb(102, 178, 255)", "rgb(102, 255, 178)"], ascending=False)
+                                "rgb(255, 102, 102)", "rgb(102, 178, 255)", "rgb(102, 255, 178)"])
             proper.update_layout(title='Tipos de alojamientos en Oporto', xaxis_title='Número',
                                  yaxis_title='', legend_title='', font=dict(size=14), template='plotly_dark')
             st.plotly_chart(proper, use_container_width=True)
