@@ -119,21 +119,6 @@ def main():
 
         cols = st.columns(2)
         with cols[0]:
-            feq = df_slider['neighbourhood'].value_counts(
-            ).sort_values(ascending=True)
-            feq = feq[feq > 500]
-
-            fig1 = px.bar(feq, x=feq.values, y=feq.index,
-                          orientation='h', template='plotly_dark')
-            fig1.update_layout(
-                title="Freguesias con más de 500 alojamientos:",
-                xaxis_title="Número",
-                yaxis_title="Freguesia",
-                font=dict(size=12)
-            )
-            st.plotly_chart(fig1,  use_container_width=True)
-
-        with cols[1]:
             st.write("Mapa de las localizaciones de los alojamientos")
             # TODO hacer que el mapa se centre bien
             lats = df_slider['latitude'].tolist()
@@ -149,8 +134,7 @@ def main():
             folium.Marker(location=[41.1496, -8.6109]).add_to(map1)
             st_folium(map1, returned_objects=[])
 
-        cols = st.columns(2)
-        with cols[0]:
+        with cols[1]:
             st.write("Mapa de la media de los precios por freguesias")
             # Calculate mean price by neighborhood for listings that accommodate 2 people
             mean_prices = df_slider.loc[df_slider['accommodates'] == 2].groupby(
@@ -201,6 +185,9 @@ def main():
                 highlight_function=highlight_function
             ).add_to(map3)
 
+        cols = st.columns(2)
+        with cols[0]:
+
             # Add marker to map
             folium.Marker(location=[41.1496, -8.6109]).add_to(map3)
 
@@ -208,7 +195,6 @@ def main():
             color_scale.add_to(map3)
             st_folium(map3, returned_objects=[])
 
-        with cols[1]:
             st.write('Mapa de calor de los precios del alojamiento:')
             # TODO hacer que el mapa se centre bien
             # Mapa de calor basándome en uno de Demetrio
@@ -230,10 +216,42 @@ def main():
 
             # Add the color scale legend
             color_scale.add_to(calorsita)
-
+        with cols[1]:
             # Display the map
             st_folium(calorsita, returned_objects=[])
-
+            df_slider = df_slider.fillna(0)
+            st.write(
+                "Aquí se podría poner el código que muestra los tipos de habitaciones pero no funciona aún.")
+            st.pydeck_chart(pdk.Deck(
+                map_style='cartodbpositron',
+                initial_view_state=pdk.ViewState(
+                    latitude=41.1496,
+                    longitude=-8.6109,
+                    zoom=11,
+                    pitch=50,
+                ),
+                layers=[
+                    pdk.Layer(
+                        'HexagonLayer',
+                        data=df_slider,
+                        get_position='[longitude, latitude]',
+                        radius=100,
+                        elevation_scale=4,
+                        elevation_range=[0, 1000],
+                        pickable=True,
+                        extruded=True,
+                        get_fill_color='[255, (1 - (price / 300)) * 255, 0]',
+                        get_line_color='[255, 255, 255]',
+                    ),
+                    pdk.Layer(
+                        'ScatterplotLayer',
+                        data=df_slider,
+                        get_position='[longitude, latitude]',
+                        get_color='[200, 30, 0, 160]',
+                        get_radius='price / 10',
+                    ),
+                ],
+            ))
 
 # -------------------------------------------------------TAB 2-----------------------------------------------------#
 
@@ -288,39 +306,19 @@ def main():
             st.plotly_chart(accomm, use_container_width=True)
 
         with cols[1]:
-            df_slider = df_slider.fillna(0)
-            st.write(
-                "Aquí se podría poner el código que muestra los tipos de habitaciones pero no funciona aún.")
-            st.pydeck_chart(pdk.Deck(
-                map_style='cartodbpositron',
-                initial_view_state=pdk.ViewState(
-                    latitude=41.1496,
-                    longitude=-8.6109,
-                    zoom=11,
-                    pitch=50,
-                ),
-                layers=[
-                    pdk.Layer(
-                        'HexagonLayer',
-                        data=df_slider,
-                        get_position='[longitude, latitude]',
-                        radius=100,
-                        elevation_scale=4,
-                        elevation_range=[0, 1000],
-                        pickable=True,
-                        extruded=True,
-                        get_fill_color='[255, (1 - (price / 300)) * 255, 0]',
-                        get_line_color='[255, 255, 255]',
-                    ),
-                    pdk.Layer(
-                        'ScatterplotLayer',
-                        data=df_slider,
-                        get_position='[longitude, latitude]',
-                        get_color='[200, 30, 0, 160]',
-                        get_radius='price / 10',
-                    ),
-                ],
-            ))
+            feq = df_slider['neighbourhood'].value_counts(
+            ).sort_values(ascending=True)
+            feq = feq[feq > 500]
+
+            fig1 = px.bar(feq, x=feq.values, y=feq.index,
+                          orientation='h', template='plotly_dark')
+            fig1.update_layout(
+                title="Freguesias con más de 500 alojamientos:",
+                xaxis_title="Número",
+                yaxis_title="Freguesia",
+                font=dict(size=12)
+            )
+            st.plotly_chart(fig1,  use_container_width=True)
             # -------------------------------------------------------TAB 3-----------------------------------------------------#
     tab_plots = tabs[2]  # this is the third tab
     with tab_plots:
