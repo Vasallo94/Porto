@@ -355,14 +355,12 @@ def main():
             fig1.update_layout(xaxis_title="Nota (1-5)", yaxis_title="")
 
             st.plotly_chart(fig1, use_container_width=True)
-
-        # Render the chart using Streamlit
-        st.plotly_chart(fig1)
+            
         st.markdown('---')
         st.write('# Información sobre los host')
         # Muestra los gráficos en la interfaz
         figs = response_charts(df_slider)
-        st.plotly_chart(figs)
+        st.plotly_chart(figs, use_container_width=True)
 
         # calcular frecuencias
         df_frequencies = df_slider['host_is_superhost'].value_counts(
@@ -395,7 +393,7 @@ def main():
             template='plotly_dark'
         )
         # mostrar gráfico en Streamlit
-        st.plotly_chart(fig_super)
+        st.plotly_chart(fig_super, use_container_width=True)
 
         # -------------------------------------------------------TAB 6-----------------------------------------------------#
     tab_plots = tabs[4]  # this is the third tab
