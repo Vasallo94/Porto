@@ -70,7 +70,7 @@ def main():
     with col3:
         image = Image.open('img/porto.jpeg')
 
-        st.image(image, caption='Porto by prettymaps', width=400)
+        st.image(image, caption='Porto by prettymaps', width=200)
 # -----------------------------------------------LECTURA DE DATOS Y PREPROCESAMIENTO------------------------------------#
 
     df_cal = pd.read_csv('output/df_cal.csv.gz')
