@@ -293,7 +293,7 @@ def main():
             st.write(
                 "Aquí se podría poner el código que muestra los tipos de habitaciones pero no funciona aún.")
             st.pydeck_chart(pdk.Deck(
-                map_style=None,
+                map_style='cartodbpositron',
                 initial_view_state=pdk.ViewState(
                     latitude=41.1496,
                     longitude=-8.6109,
@@ -305,7 +305,7 @@ def main():
                         'HexagonLayer',
                         data=df_slider,
                         get_position='[longitude, latitude]',
-                        radius=200,
+                        radius=100,
                         elevation_scale=4,
                         elevation_range=[0, 1000],
                         pickable=True,
