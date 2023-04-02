@@ -117,7 +117,6 @@ def main():
 
         cols = st.columns(2)
         with cols[0]:
-            st.write("Freguesias con más de 500 alojamientos:")
             feq = df_slider['neighbourhood'].value_counts(
             ).sort_values(ascending=True)
             feq = feq[feq > 500]
@@ -125,14 +124,15 @@ def main():
             fig1 = px.bar(feq, x=feq.values, y=feq.index,
                           orientation='h', template='plotly_dark')
             fig1.update_layout(
-                title="Number of listings by neighbourhood",
-                xaxis_title="Number of listings",
-                yaxis_title="Neighbourhood",
+                title="Freguesias con más de 500 alojamientos:",
+                xaxis_title="Número",
+                yaxis_title="Freguesia",
                 font=dict(size=12)
             )
             st.plotly_chart(fig1,  use_container_width=True)
 
         with cols[1]:
+            st.write("Mapa de las localizaciones de los alojamientos")
             # TODO hacer que el mapa se centre bien
             lats = df_slider['latitude'].tolist()
             lons = df_slider['longitude'].tolist()
@@ -140,16 +140,16 @@ def main():
             locations = list(zip(lats, lons))
 
             # Le das una lat y lon inicial y un zoom inicial para representar el mapa
-            map1 = folium.Map(location=[41.1496, -8.6109], zoom_start=15)
+            map1 = folium.Map(
+                location=[41.1496, -8.6109], zoom_start=13, use_container_width=True)
             # Te añade las localizaciones al mapa generado anteriormente
             FastMarkerCluster(data=locations).add_to(map1)
             folium.Marker(location=[41.1496, -8.6109]).add_to(map1)
-            st_folium(map1, width=2000, height=600, returned_objects=[])
+            st_folium(map1, returned_objects=[])
 
         cols = st.columns(2)
         with cols[0]:
-            st.write("PRUEBA")
-            # ? Poner cuando esté mejorado el código
+            st.write("Mapa de la media de los precios por freguesias")
             # Calculate mean price by neighborhood for listings that accommodate 2 people
             mean_prices = df_slider.loc[df_slider['accommodates'] == 2].groupby(
                 'neighbourhood')['price'].mean()
@@ -186,7 +186,8 @@ def main():
                 }
 
             # Create map
-            map3 = folium.Map(location=[41.1496, -8.6109], zoom_start=15)
+            map3 = folium.Map(
+                location=[41.1496, -8.6109], zoom_start=15, use_container_width=True)
 
             # Add geojson layer to map with tooltip and style and highlight functions
             folium.GeoJson(
@@ -202,8 +203,8 @@ def main():
             folium.Marker(location=[41.1496, -8.6109]).add_to(map3)
 
             # Add color scale to map
-            map3.add_child(color_scale)
-            st_folium(map3,  width=2000, height=600, returned_objects=[])
+            color_scale.add_to(map3)
+            st_folium(map3, returned_objects=[])
 
         with cols[1]:
             # TODO hacer que el mapa se centre bien
@@ -216,7 +217,7 @@ def main():
                 ['green', 'yellow', 'red'], vmin=min_price, vmax=max_price, caption='Precio')
             # Create the map
             calorsita = folium.Map(
-                location=[41.1496, -8.6109], tiles='cartodbpositron', zoom_start=15)
+                location=[41.1496, -8.6109], tiles='cartodbpositron', zoom_start=15, use_container_width=True)
 
             # Add a heatmap to the base map
             HeatMap(data=df_slider[['latitude', 'longitude', 'price']],
@@ -225,10 +226,10 @@ def main():
                     min_opacity=0.2).add_to(calorsita)
 
             # Add the color scale legend
-            calorsita.add_child(color_scale)
+            color_scale.add_to(calorsita)
 
             # Display the map
-            st_folium(calorsita, width=2000, height=600, returned_objects=[])
+            st_folium(calorsita, returned_objects=[])
 
 
 # -------------------------------------------------------TAB 2-----------------------------------------------------#
