@@ -207,10 +207,9 @@ def correlation_papa(df, annot=True, figsize=(10, 10), cmap='coolwarm'):
 
 def response_rate_chart(df):
     listings10 = df[df['number_of_reviews'] >= 10]
-
-    feq1 = listings10['host_response_rate'].replace(
-        0, np.nan).dropna().sort_values(ascending=True)
-    feq1 = feq1[feq1['host_response_rate'] != 0]
+    listings10 = listings10[listings10['host_response_name']!=0]
+    feq1 = listings10['host_response_rate'].sort_values(ascending=True)
+ 
 
     fig = px.histogram(feq1, nbins=35)
     fig.update_layout(
