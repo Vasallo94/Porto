@@ -208,7 +208,7 @@ def main():
                     min_opacity=0.2).add_to(calorsita)
 
             # Add the color scale legend
-            color_scale.add_to(calorsita)
+            # color_scale.add_to(calorsita)
             st_folium(calorsita, returned_objects=[])
         with cols[1]:
             # Display the map
@@ -379,6 +379,13 @@ def main():
         # mostrar gráfico en Streamlit
         st.plotly_chart(fig_super, use_container_width=True)
 
+        sh_v_h = px.scatter(df, x="Superhost", y="Price", color="Superhost",
+                        color_discrete_map={"f": "red", "t": "green"},
+                        labels={"Superhost": "Superhost", "Price": "Precio"}, template='plotly_dark')
+        sh_v_h.update_layout(title="Precios de Superhost",
+                        xaxis=dict(tickmode='linear'))
+        st.plotly_chart(sh_v_h, use_container_width=True)
+
         # -------------------------------------------------------TAB 6-----------------------------------------------------#
     tab_plots = tabs[3]  # this is the third tab
     with tab_plots:
@@ -413,30 +420,6 @@ def main():
         precio.update_layout(xaxis_title='Fecha',
                              yaxis_title='Precio', template='plotly_dark')
         st.plotly_chart(precio, use_container_width=True)
-
-        # Leer los datos y convertir la columna 'date' en tipo datetime
-        df_cal['date'] = pd.to_datetime(df_cal['date'])
-
-        # Filtrar los datos para tener sólo los disponibles
-        df_available = df_cal[df_cal["available"] == "t"]
-
-        # Filtrar los datos para tener sólo los que acomodan a 2 personas
-        df_available = df_available[df_available['accommodates'] == 2]
-
-        # Obtener la cantidad disponible y el precio medio por día
-        df_available = df_available.groupby(['date']).agg(
-            {'available': 'sum', 'price_x': 'mean'}).reset_index()
-
-        # Agregar la columna de día de la semana
-        df_available['weekday'] = df_available['date'].dt.day_name()
-
-        # Crear el gráfico de dispersión
-        disp_precio = px.scatter(df_available, x='available', y='price_x',
-                                 hover_data=['date', 'weekday'], title='Disponibilidad vs. Precio', template='plotly_dark')
-        disp_precio.update_layout(xaxis_title='Disponibilidad',
-                                  yaxis_title='Precio', template='plotly_dark')
-
-        st.plotly_chart(disp_precio, use_container_width=True)
 
         # -------------------------------------------------------TAB 5-----------------------------------------------------#
     tab_plots = tabs[4]  # this is the third tab
