@@ -216,10 +216,11 @@ def main():
 
             # Add the color scale legend
             color_scale.add_to(calorsita)
+            st_folium(calorsita, returned_objects=[])
         with cols[1]:
             # Display the map
-            st_folium(calorsita, returned_objects=[])
-            df_slider = df_slider.fillna(0)
+
+            # ! Volver a poner si se rompe todo df_slider = df_slider.fillna(0)
             st.write(
                 "Aquí se podría poner el código que muestra los tipos de habitaciones pero no funciona aún.")
             st.pydeck_chart(pdk.Deck(
