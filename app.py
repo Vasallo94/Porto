@@ -212,6 +212,7 @@ def main():
             color_scale.add_to(calorsita)
             st_folium(calorsita, returned_objects=[])
         with cols[1]:
+            st.write('A ver si este gráfico funcioona')
             # Display the map
             # df_slider = df_slider.fillna(0)
             # st.write(
