@@ -79,7 +79,7 @@ def main():
         'http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/data/reviews.csv.gz', parse_dates=['date'])
 
     df_55 = pd.read_csv('output/df_55.csv')
-    st.subheader("Análisis de la situación del alquiler de alojamientos en Airbnb en la ciudad e Oporto y sus alrededores.")
+    st.subheader("Análisis de la situación del alquiler de alojamientos en Airbnb en la ciudad de Oporto y sus alrededores.")
 # -----------------------------------------------------------SLIDER--------------------------------------------#
     # Filtrar el dataframe según la distancia seleccionada
     # Crear el slider para seleccionar la distancia máxima
@@ -115,7 +115,7 @@ def main():
 
         cols = st.columns(2)
         with cols[0]:
-            st.write("Lorem ipsum dolor sit amet...")
+            st.write("Freguesias con más de 500 alojamientos:")
             feq = df_slider['neighbourhood'].value_counts(
             ).sort_values(ascending=True)
             feq = feq[feq > 500]
@@ -128,6 +128,7 @@ def main():
                 yaxis_title="Neighbourhood",
                 font=dict(size=12)
             )
+            fig1.update_xaxes(tickangle=45, tickfont=dict(family='Rockwell', color='crimson', size=14))
             st.plotly_chart(fig1,  use_container_width=True)
 
         with cols[1]:
