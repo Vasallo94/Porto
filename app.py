@@ -294,14 +294,13 @@ def main():
         with cols[0]:
 
             freq = df_slider['room_type'].value_counts(
-            ).sort_values(ascending=True)
+            ).sort_values(ascending=False)
 
             room_by_type = px.bar(freq, orientation='h', color=freq.index,
                                   labels={'y': 'Room Type', 'x': 'Number of Listings'}, template='plotly_dark')
-            room_by_type.update_layout(title="Number of Listings by Room Type",
-                                       xaxis_title="Number of Listings",
-                                       yaxis_title="Room Type",
-                                       height=400, width=800)
+            room_by_type.update_layout(title="Número de reservas por tipo de Habitación",
+                                       xaxis_title="Número",
+                                       yaxis_title='')
             st.plotly_chart(room_by_type, use_container_width=True)
 
         with cols[1]:
