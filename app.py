@@ -207,6 +207,7 @@ def main():
             st_folium(map3, returned_objects=[])
 
         with cols[1]:
+            st.write('Mapa de calor de los precios del alojamiento:')
             # TODO hacer que el mapa se centre bien
             # Mapa de calor basándome en uno de Demetrio
             # Get the minimum and maximum price values
