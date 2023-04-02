@@ -213,39 +213,39 @@ def main():
             st_folium(calorsita, returned_objects=[])
         with cols[1]:
             # Display the map
-            df_slider = df_slider.fillna(0)
-            st.write(
-                "Mapa de precios en 3D")
-            st.pydeck_chart(pdk.Deck(
-                map_style=None,
-                initial_view_state=pdk.ViewState(
-                    latitude=41.1496,
-                    longitude=-8.6109,
-                    zoom=11,
-                    pitch=45,
-                ),
-                layers=[
-                    pdk.Layer(
-                        'HexagonLayer',
-                        data=df_slider,
-                        get_position='[longitude, latitude]',
-                        radius=100,
-                        elevation_scale=4,
-                        elevation_range=[0, 1000],
-                        pickable=True,
-                        extruded=True,
-                        get_fill_color='[255, (1 - (price / 300)) * 255, 0]',
-                        get_line_color='[255, 255, 255]',
-                    ),
-                    pdk.Layer(
-                        'ScatterplotLayer',
-                        data=df_slider,
-                        get_position='[longitude, latitude]',
-                        get_color='[200, 30, 0, 160]',
-                        get_radius='price / 10',
-                    ),
-                ],
-            ))
+            # df_slider = df_slider.fillna(0)
+            # st.write(
+            #     "Mapa de precios en 3D")
+            # st.pydeck_chart(pdk.Deck(
+            #     map_style=None,
+            #     initial_view_state=pdk.ViewState(
+            #         latitude=41.1496,
+            #         longitude=-8.6109,
+            #         zoom=11,
+            #         pitch=45,
+            #     ),
+            #     layers=[
+            #         pdk.Layer(
+            #             'HexagonLayer',
+            #             data=df_slider,
+            #             get_position='[longitude, latitude]',
+            #             radius=100,
+            #             elevation_scale=4,
+            #             elevation_range=[0, 1000],
+            #             pickable=True,
+            #             extruded=True,
+            #             get_fill_color='[255, (1 - (price / 300)) * 255, 0]',
+            #             get_line_color='[255, 255, 255]',
+            #         ),
+            #         pdk.Layer(
+            #             'ScatterplotLayer',
+            #             data=df_slider,
+            #             get_position='[longitude, latitude]',
+            #             get_color='[200, 30, 0, 160]',
+            #             get_radius='price / 10',
+            #         ),
+            #     ],
+            # ))
 
 # -------------------------------------------------------TAB 2-----------------------------------------------------#
 
