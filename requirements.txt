@@ -13,3 +13,4 @@ streamlit-folium
 streamlit-lottie
 scikit-learn
 seaborn
+pydeck
