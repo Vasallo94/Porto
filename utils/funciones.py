@@ -226,7 +226,7 @@ def response_time_chart(df):
         subset=['host_response_time'])
 
     # Eliminar los valores 0 del dataframe
-    listings10 = listings10[listings10['host_response_time'] != '0']
+    listings10 = listings10[listings10['host_response_time'] != 0 ]
 
     fig = px.bar(listings10['host_response_time'].value_counts().reset_index(),
                  x='index',
