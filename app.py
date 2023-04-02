@@ -73,12 +73,11 @@ def main():
         st.image(image, caption='Porto by prettymaps')
 # -----------------------------------------------LECTURA DE DATOS Y PREPROCESAMIENTO------------------------------------#
 
-    df_calendar = pd.read_csv('http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/data/calendar.csv.gz',
-                              parse_dates=['date'], index_col=['listing_id'])
+    df_cal = pd.read_csv('output/df_cal.csv.gz',
+                         parse_dates=['date'], index_col=['listing_id'])
     porto_geojson = "http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/visualisations/neighbourhoods.geojson"
     porto_gdf = gpd.read_file(porto_geojson)
-    df_reviews = pd.read_csv(
-        'http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/data/reviews.csv.gz', parse_dates=['date'])
+    # df_reviews = pd.read_csv('http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/data/reviews.csv.gz', parse_dates=['date'])
 
     df_55 = pd.read_csv('output/df_55.csv')
     st.subheader(
@@ -398,12 +397,12 @@ def main():
 
         st.title('Disponibilidad y precio para el 2023:')
         # Leer los datos y convertir la columna 'date' en tipo datetime
-        df_calendar['date'] = pd.to_datetime(df_calendar['date'])
-        df_calendar = pd.merge(df_slider, df_calendar,
-                               left_on='id', right_index=True)
+        df_cal['date'] = pd.to_datetime(df_cal['date'])
+        df_cal = pd.merge(df_slider, df_cal,
+                          left_on='id', right_index=True)
 
         # Filtrar los datos para tener sólo los disponibles
-        sum_available = df_calendar[df_calendar.available == "t"].groupby(
+        sum_available = df_cal[df_cal.available == "t"].groupby(
             ['date']).size().to_frame(name='available').reset_index()
 
         # Agregar la columna de día de la semana
@@ -418,8 +417,8 @@ def main():
         st.plotly_chart(disponibilidad, use_container_width=True)
         # Gráfico del precio
 
-        average_price = df_calendar[(df_calendar.available == "t") & (
-            df_calendar.accommodates == 2)].groupby(['date']).mean().astype(np.int64).reset_index()
+        average_price = df_cal[(df_cal.available == "t") & (
+            df_cal.accommodates == 2)].groupby(['date']).mean().astype(np.int64).reset_index()
         average_price['weekday'] = average_price['date'].dt.day_name()
         average_price = average_price.set_index('date')
         precio = px.line(average_price, x=average_price.index,
