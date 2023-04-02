@@ -276,7 +276,21 @@ def main():
             st.plotly_chart(fig1,  use_container_width=True)
 
         with cols[1]:
+            prop = df_slider.groupby(['property_type', 'room_type']).room_type.count().sort_values(ascending=False)
+            prop = prop.unstack()
+            prop['total'] = prop.iloc[:, 0:3].sum(axis=1)
+            prop = prop.sort_values(by=['total'])
+            prop = prop[prop['total'] >= 100]
+            prop = prop.drop(columns=['total'])
 
+            proper = px.bar(prop, barmode='stack', orientation='h',
+                            color_discrete_sequence=[
+                                "rgb(255, 102, 102)", "rgb(102, 178, 255)", "rgb(102, 255, 178)"])
+            proper.update_layout(title='Tipos de alojamientos en Oporto', xaxis_title='Número',
+                                 yaxis_title='', legend_title='', font=dict(size=14), template='plotly_dark')
+            st.plotly_chart(proper, use_container_width=True)
+
+        with cols[0]:
             freq = df_slider['room_type'].value_counts(
             ).sort_values(ascending=True)
 
@@ -287,24 +301,8 @@ def main():
                                        yaxis_title="Room Type",
                                        height=400, width=800)
             st.plotly_chart(room_by_type, use_container_width=True)
-        cols = st.columns(2)
-        with cols[0]:
-
-            prop = df_slider.groupby(
-                ['property_type', 'room_type']).room_type.count().sort_values(ascending=True)
-            prop = prop.unstack()
-            prop['total'] = prop.iloc[:, 0:3].sum(axis=1)
-            prop = prop.sort_values(by=['total'])
-            prop = prop[prop['total'] >= 100]
-            prop = prop.drop(columns=['total'])
-
-            proper = px.bar(prop, barmode='stack', orientation='h',
-                            color_discrete_sequence=[
-                                "rgb(255, 102, 102)", "rgb(102, 178, 255)", "rgb(102, 255, 178)"],
-                            width=1000, height=600)
-            proper.update_layout(title='Property types in Oporto', xaxis_title='Number of listings',
-                                 yaxis_title='', legend_title='', font=dict(size=14), template='plotly_dark')
-            st.plotly_chart(proper, use_container_width=True)
+            cols = st.columns(2)
+            
 
         with cols[1]:
 
