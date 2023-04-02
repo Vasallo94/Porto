@@ -289,6 +289,7 @@ def main():
             st.plotly_chart(accomm, use_container_width=True)
 
         with cols[1]:
+            df_slider = df_slider.fillna(0)
             st.write(
                 "Aquí se podría poner el código que muestra los tipos de habitaciones pero no funciona aún.")
             st.pydeck_chart(pdk.Deck(
