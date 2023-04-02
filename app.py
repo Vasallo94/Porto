@@ -314,7 +314,6 @@ def main():
         st.title('Consejos al turismo')
         cols = st.columns(2)
         with cols[0]:
-            st.write('Precios por freguesias:')
             # Carga de datos
             feq = df_slider[df_slider['accommodates'] == 2]
             feq = feq.groupby('neighbourhood')['price'].mean(
