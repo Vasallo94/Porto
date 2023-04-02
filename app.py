@@ -412,7 +412,7 @@ def main():
 
         # Crear la figura de Plotly Express
         disponibilidad = px.line(
-            sum_available, y='Disponible', title='Número de reservas disponibles por fecha', template='plotly_dark')
+            sum_available, y='available', title='Número de reservas disponibles por fecha', template='plotly_dark')
         st.plotly_chart(disponibilidad, use_container_width=True)
         # Gráfico del precio
 
