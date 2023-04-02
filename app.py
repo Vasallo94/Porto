@@ -103,8 +103,7 @@ def main():
 
 # ---------------------------------------------------------------TABS---------------------------------------------------#
     st.title("Selecciona lo que te interese")
-    tabs = st.tabs(["Mapas", "Tipos de propiedades y alojamientos",
-                   "Número de alojados", "Consejos al turismo", 'Disponibilidad y precios para el 2023', 'Reseñas de los huéspedes'])
+    tabs = st.tabs(["Mapas", "Tipos de propiedades y alojamientos", "Consejos al turismo", 'Disponibilidad y precios para el 2023', 'Reseñas de los huéspedes'])
 
     # -------------------------------------------------------TAB 1-----------------------------------------------------#
     tab_plots = tabs[0]  # this is the first tab
@@ -336,7 +335,7 @@ def main():
 
             fig1 = px.bar(feq1, x='review_scores_location', y=feq1.index, orientation='h',
                           color='review_scores_location', color_continuous_scale='RdYlGn')
-            fig1.update_layout(xaxis_title="Nota (1-5)", yaxis_title="")
+            fig1.update_layout(xaxis_title="Nota (1-5)", yaxis_title="", title="Nota por localización",)
 
             st.plotly_chart(fig1, use_container_width=True)
 
