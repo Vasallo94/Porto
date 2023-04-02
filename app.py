@@ -68,7 +68,7 @@ def main():
         st.title(
             "Airbnb: Oporto")
     with col3:
-        image = Image.open('img/porto.jpeg')
+        image = Image.open('img/porto.jpeg', width=400)
 
         st.image(image, caption='Porto by prettymaps')
 # -----------------------------------------------LECTURA DE DATOS Y PREPROCESAMIENTO------------------------------------#
@@ -103,7 +103,7 @@ def main():
 # ---------------------------------------------------------------TABS---------------------------------------------------#
     st.title("Selecciona lo que te interese")
     tabs = st.tabs(["Mapas", "Tipos de propiedades y alojamientos",
-                   "Número de alojados", "Consejos al turismo", 'Reseñas de los huéspedes', 'Disponibilidad y precios para el 2023'])
+                   "Número de alojados", "Consejos al turismo", 'Disponibilidad y precios para el 2023', 'Reseñas de los huéspedes'])
 
     # -------------------------------------------------------TAB 1-----------------------------------------------------#
     tab_plots = tabs[0]  # this is the first tab
@@ -340,8 +340,43 @@ def main():
         with cols[1]:
             st.write('Lorem ipsum dolor sit amet...')
 
-        # -------------------------------------------------------TAB 5-----------------------------------------------------#
+        # -------------------------------------------------------TAB 6-----------------------------------------------------#
     tab_plots = tabs[4]  # this is the third tab
+    with tab_plots:
+
+        st.title('Disponibilidad y precio para el 2023:')
+        # Leer los datos y convertir la columna 'date' en tipo datetime
+        # Leer los datos y convertir la columna 'date' en tipo datetime
+        df_cal['date'] = pd.to_datetime(df_cal['date'])
+        # Filtrar los datos para tener sólo los disponibles
+        sum_available = df_cal[df_cal["available"] == "t"].groupby(
+            ['date']).size().to_frame(name='available').reset_index()
+
+        # Agregar la columna de día de la semana
+        sum_available['weekday'] = sum_available['date'].dt.day_name()
+
+        # Establecer 'date' como el índice del DataFrame
+        sum_available = sum_available.set_index('date')
+
+        # Crear la figura de Plotly Express
+        disponibilidad = px.line(sum_available, y='available',
+                                 title='Number of listings available by date', template='plotly_dark')
+        st.plotly_chart(disponibilidad, use_container_width=True)
+        # Gráfico del precio
+
+        average_price = df_cal[(df_cal['available'] == "t") & (
+            df_cal['accommodates'] == 2)].groupby(['date']).mean().astype(np.int64).reset_index()
+        average_price['weekday'] = average_price['date'].dt.day_name()
+        average_price = average_price.set_index('date')
+        precio = px.line(average_price, x=average_price.index,
+                         y='price_x', title='Precio medio para dos personas')
+        precio.update_traces(text=average_price['weekday'])
+        precio.update_layout(xaxis_title='Fecha',
+                             yaxis_title='Precio', template='plotly_dark')
+        st.plotly_chart(precio, use_container_width=True)
+
+        # -------------------------------------------------------TAB 5-----------------------------------------------------#
+    tab_plots = tabs[5]  # this is the third tab
     with tab_plots:
         st.title('Disponibilidad y precios de los alojamientos para el 2023')
         st.subheader('Lorem ipsum dolor sit amet...')
@@ -390,40 +425,11 @@ def main():
 
         # Show the plot
         st.plotly_chart(scores, use_container_width=True)
-        # -------------------------------------------------------TAB 6-----------------------------------------------------#
-    tab_plots = tabs[5]  # this is the third tab
-    with tab_plots:
 
-        st.title('Disponibilidad y precio para el 2023:')
-        # Leer los datos y convertir la columna 'date' en tipo datetime
-        # Leer los datos y convertir la columna 'date' en tipo datetime
-        df_cal['date'] = pd.to_datetime(df_cal['date'])
-        # Filtrar los datos para tener sólo los disponibles
-        sum_available = df_cal[df_cal["available"] == "t"].groupby(
-            ['date']).size().to_frame(name='available').reset_index()
+        wordcloud = Image.open('img/wordcloud.png')
 
-        # Agregar la columna de día de la semana
-        sum_available['weekday'] = sum_available['date'].dt.day_name()
-
-        # Establecer 'date' como el índice del DataFrame
-        sum_available = sum_available.set_index('date')
-
-        # Crear la figura de Plotly Express
-        disponibilidad = px.line(sum_available, y='available',
-                                 title='Number of listings available by date', template='plotly_dark')
-        st.plotly_chart(disponibilidad, use_container_width=True)
-        # Gráfico del precio
-
-        average_price = df_cal[(df_cal['available'] == "t") & (
-            df_cal['accommodates'] == 2)].groupby(['date']).mean().astype(np.int64).reset_index()
-        average_price['weekday'] = average_price['date'].dt.day_name()
-        average_price = average_price.set_index('date')
-        precio = px.line(average_price, x=average_price.index,
-                         y='price_x', title='Precio medio para dos personas')
-        precio.update_traces(text=average_price['weekday'])
-        precio.update_layout(xaxis_title='Fecha',
-                             yaxis_title='Precio', template='plotly_dark')
-        st.plotly_chart(precio, use_container_width=True)
+        st.image(wordcloud, caption='Nube de palabras hecha analizando las palabras más repetidas en los comentarios.',
+                 use_container_width=True)
 
 
 if __name__ == '__main__':
