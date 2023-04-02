@@ -272,8 +272,8 @@ def main():
                             color_discrete_sequence=[
                                 "rgb(255, 102, 102)", "rgb(102, 178, 255)", "rgb(102, 255, 178)"],
                             width=1000, height=600)
-            proper.update_layout(title='Property types in Oporto', xaxis_title='Number of listings', yaxis_title='',
-                                 legend_title='', font=dict(size=14), template='plotly_dark')
+            proper.update_layout(title='Property types in Oporto', xaxis_title='Number of listings',
+                                 yaxis_title='', legend_title='', font=dict(size=14), template='plotly_dark')
             st.plotly_chart(proper, use_container_width=True)
         cols = st.columns(2)
         with cols[0]:
@@ -284,8 +284,7 @@ def main():
                             color='Accommodates',
                             width=700, height=600, template='plotly_dark')
             accomm.update_layout(title={'text': "Accommodates (number of people)", 'x': 0.5},
-                                 xaxis_title='Accommodates', yaxis_title='Number of listings',
-                                 font=dict(size=14))
+                                 xaxis_title='Accommodates', yaxis_title='Number of listings', font=dict(size=14))
             st.plotly_chart(accomm, use_container_width=True)
 
         with cols[1]:
