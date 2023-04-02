@@ -416,8 +416,8 @@ def main():
         st.plotly_chart(disponibilidad, use_container_width=True)
         # Gráfico del precio
 
-        average_price = df_cal[(df_cal[available] == "t") & (
-            df_cal[accommodates] == 2)].groupby(['date']).mean().astype(np.int64).reset_index()
+        average_price = df_cal[(df_cal['available'] == "t") & (
+            df_cal['accommodates'] == 2)].groupby(['date']).mean().astype(np.int64).reset_index()
         average_price['weekday'] = average_price['date'].dt.day_name()
         average_price = average_price.set_index('date')
         precio = px.line(average_price, x=average_price.index,
