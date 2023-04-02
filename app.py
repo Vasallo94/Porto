@@ -130,7 +130,6 @@ def main():
                 yaxis_title="Neighbourhood",
                 font=dict(size=12)
             )
-            fig1.update_xaxes(tickangle=45, size=14)
             st.plotly_chart(fig1,  use_container_width=True)
 
         with cols[1]:
