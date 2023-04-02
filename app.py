@@ -70,7 +70,8 @@ def main():
     with col3:
         image = Image.open('img/porto.jpeg')
 
-        st.image(image, caption='Porto by prettymaps', width=300)
+        st.image(image, caption='Porto by prettymaps',
+                 use_container_width=True)
 # -----------------------------------------------LECTURA DE DATOS Y PREPROCESAMIENTO------------------------------------#
 
     df_cal = pd.read_csv('output/df_cal.csv.gz')
@@ -429,7 +430,7 @@ def main():
 
         wordcloud = Image.open('img/wordcloud.png')
 
-        st.image(wordcloud, caption='Nube de palabras hecha analizando las palabras más repetidas en los comentarios.', use_container_width=True)
+        st.image(wordcloud, caption='Nube de palabras hecha analizando las palabras más repetidas en los comentarios.', use_container_width='auto')
 
 
 if __name__ == '__main__':
