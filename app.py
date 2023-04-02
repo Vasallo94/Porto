@@ -25,6 +25,8 @@ import json
 from PIL import Image
 import streamlit as st
 from plotly.subplots import make_subplots
+import pydeck as pdk
+
 
 sns.set()
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -289,6 +291,36 @@ def main():
         with cols[1]:
             st.write(
                 "Aquí se podría poner el código que muestra los tipos de habitaciones pero no funciona aún.")
+            st.pydeck_chart(pdk.Deck(
+                map_style=None,
+                initial_view_state=pdk.ViewState(
+                    latitude=41.1496,
+                    longitude=-8.6109,
+                    zoom=11,
+                    pitch=50,
+                ),
+                layers=[
+                    pdk.Layer(
+                        'HexagonLayer',
+                        data=df_slider,
+                        get_position='[longitude, latitude]',
+                        radius=200,
+                        elevation_scale=4,
+                        elevation_range=[0, 1000],
+                        pickable=True,
+                        extruded=True,
+                        get_fill_color='[255, (1 - (price / 300)) * 255, 0]',
+                        get_line_color='[255, 255, 255]',
+                    ),
+                    pdk.Layer(
+                        'ScatterplotLayer',
+                        data=df_slider,
+                        get_position='[longitude, latitude]',
+                        get_color='[200, 30, 0, 160]',
+                        get_radius='price / 10',
+                    ),
+                ],
+            ))
             # -------------------------------------------------------TAB 3-----------------------------------------------------#
     tab_plots = tabs[2]  # this is the third tab
     with tab_plots:
