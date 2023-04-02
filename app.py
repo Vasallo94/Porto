@@ -325,21 +325,37 @@ def main():
         with cols[1]:
             st.write('Lorem ipsum dolor sit amet...')
 
-            # -------------------------------------------------------TAB 4-----------------------------------------------------#
+        # -------------------------------------------------------TAB 4-----------------------------------------------------#
     tab_plots = tabs[3]  # this is the third tab
     with tab_plots:
+        st.title('Consejos al turismo')
 
-        st.title('Lorem ipsum dolor sit amet...')
-        st.subheader('Lorem ipsum dolor sit amet...')
+        # Carga de datos
+        feq = df_slider[df_slider['accommodates'] == 2]
+        feq = feq.groupby('neighbourhood')['price'].mean(
+        ).sort_values(ascending=True).reset_index()
 
-        st.write('Lorem ipsum dolor sit amet...')
+        # Crear gráfico
+        fig = px.bar(feq, x='price', y='neighbourhood', orientation='h')
+        fig.update_layout(
+            title="Average daily price for a 2-persons accommodation",
+            xaxis_title="Average daily price (Euro)",
+            yaxis_title="",
+            font=dict(size=18)
+        )
+        st.plotly_chart(fig, use_container_width=True)
 
-        cols = st.columns(2)
-        with cols[0]:
-            st.write('Lorem ipsum dolor sit amet...')
+        # Group by neighbourhood and calculate the mean review score location for listings with at least 10 reviews
+        feq1 = df_slider[df_slider['number_of_reviews'] >= 10].groupby(
+            'neighbourhood')['review_scores_location'].mean().sort_values(ascending=True)
 
-        with cols[1]:
-            st.write('Lorem ipsum dolor sit amet...')
+        # Create bar chart using Plotly Express
+        fig1 = px.bar(feq1, x='review_scores_location', y=feq1.index, orientation='h',
+                      color='review_scores_location', color_continuous_scale='RdYlGn')
+        fig1.update_layout(xaxis_title="Score (scale 1-10)", yaxis_title="")
+
+        # Render the chart using Streamlit
+        st.plotly_chart(fig1)
 
         # -------------------------------------------------------TAB 6-----------------------------------------------------#
     tab_plots = tabs[4]  # this is the third tab
@@ -431,28 +447,6 @@ def main():
 
         st.image(wordcloud, caption='Nube de palabras hecha analizando las palabras más repetidas en los comentarios.',
                  use_column_width='auto')
-       # -------------------------------------------------------TAB 4-----------------------------------------------------#
-    tab_plots = tabs[3]  # this is the third tab
-    with tab_plots:
-        st.title('Consejos al turismo')
-        st.subheader('Lorem ipsum dolor sit amet...')
-
-        st.write('Lorem ipsum dolor sit amet...')
-
-        # Carga de datos
-        feq = df_slider[df_slider['accommodates']==2]
-        feq = feq.groupby('neighbourhood')['price'].mean().sort_values(ascending=True).reset_index()
-
-        # Crear gráfico
-        fig = px.bar(feq, x='price', y='neighbourhood', orientation='h')
-        fig.update_layout(
-            title="Average daily price for a 2-persons accommodation",
-            xaxis_title="Average daily price (Euro)",
-            yaxis_title="",
-            font=dict(size=18)
-        )
-        st.plotly_chart(fig, use_container_width=True)
-
 
 
 if __name__ == '__main__':
