@@ -358,13 +358,12 @@ def main():
 
         # Render the chart using Streamlit
         st.plotly_chart(fig1)
-        cols = st.columns(2)
-        with cols[0]:
+        st.markdown('---')
             st.write('# Información sobre los host')
             # Muestra los gráficos en la interfaz
             figs = response_charts(df_slider)
             st.plotly_chart(figs)
-        with cols[1]:
+
             # calcular frecuencias
             df_frequencies = df_slider['host_is_superhost'].value_counts(
                 normalize=True).reset_index()
@@ -395,7 +394,6 @@ def main():
                 showlegend=False,
                 template='plotly_dark'
             )
-
             # mostrar gráfico en Streamlit
             st.plotly_chart(fig_super)
 
