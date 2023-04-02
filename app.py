@@ -262,7 +262,7 @@ def main():
         cols = st.columns(2)
         with cols[0]:
             feq = df_slider['neighbourhood'].value_counts(
-            ).sort_values(ascending=True)
+            ).sort_values(ascending=False)
             feq = feq[feq > 500]
 
             fig1 = px.bar(feq, x=feq.values, y=feq.index,
@@ -277,7 +277,7 @@ def main():
 
         with cols[1]:
             prop = df_slider.groupby(
-                ['property_type', 'room_type']).room_type.count().sort_values(ascending=False)
+                ['property_type', 'room_type']).room_type.count().sort_values(ascending=True)
             prop = prop.unstack()
             prop['total'] = prop.iloc[:, 0:3].sum(axis=1)
             prop = prop.sort_values(by=['total'])
@@ -294,7 +294,7 @@ def main():
         with cols[0]:
 
             freq = df_slider['room_type'].value_counts(
-            ).sort_values(ascending=False)
+            ).sort_values(ascending=True)
 
             room_by_type = px.bar(freq, orientation='h', color=freq.index,
                                   labels={'y': 'Room Type', 'x': 'Number of Listings'}, template='plotly_dark')
