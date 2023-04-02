@@ -73,8 +73,7 @@ def main():
         st.image(image, caption='Porto by prettymaps')
 # -----------------------------------------------LECTURA DE DATOS Y PREPROCESAMIENTO------------------------------------#
 
-    df_cal = pd.read_csv('output/df_cal.csv.gz',
-                         parse_dates=['date'], index_col=['listing_id'])
+    df_cal = pd.read_csv('output/df_cal.csv.gz')
     porto_geojson = "http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/visualisations/neighbourhoods.geojson"
     porto_gdf = gpd.read_file(porto_geojson)
     # df_reviews = pd.read_csv('http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/data/reviews.csv.gz', parse_dates=['date'])
