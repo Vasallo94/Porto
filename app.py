@@ -104,18 +104,14 @@ def main():
 
 # ---------------------------------------------------------------TABS---------------------------------------------------#
     st.title("Selecciona lo que te interese")
-    tabs = st.tabs(["Agrupaciones parroquiales: freguesias", "Tipos de propiedades y alojamientos",
+    tabs = st.tabs(["Mapas", "Tipos de propiedades y alojamientos",
                    "Número de alojados", "Consejos al turismo", 'Reseñas de los huéspedes', 'Disponibilidad y precios para el 2023'])
 
     # -------------------------------------------------------TAB 1-----------------------------------------------------#
     tab_plots = tabs[0]  # this is the first tab
     with tab_plots:
 
-        st.title('Lorem ipsum dolor sit amet...')
-        st.subheader(
-            'Lorem ipsum dolor sit amet...')
-
-        st.write('Lorem ipsum dolor sit amet...')
+        st.title('Una representación visual de los datos sobre el terreno')
 
         cols = st.columns(2)
         with cols[0]:
@@ -128,7 +124,7 @@ def main():
 
             # Le das una lat y lon inicial y un zoom inicial para representar el mapa
             map1 = folium.Map(
-                location=[41.1496, -8.6109], zoom_start=13, use_container_width=True)
+                location=[41.1496, -8.6109], zoom_start=11, use_container_width=True)
             # Te añade las localizaciones al mapa generado anteriormente
             FastMarkerCluster(data=locations).add_to(map1)
             folium.Marker(location=[41.1496, -8.6109]).add_to(map1)
@@ -173,7 +169,7 @@ def main():
 
             # Create map
             map3 = folium.Map(
-                location=[41.1496, -8.6109], zoom_start=15, use_container_width=True)
+                location=[41.1496, -8.6109], zoom_start=11, use_container_width=True)
 
             # Add geojson layer to map with tooltip and style and highlight functions
             folium.GeoJson(
@@ -191,6 +187,7 @@ def main():
             # Add color scale to map
             color_scale.add_to(map3)
             st_folium(map3, returned_objects=[])
+
         cols = st.columns(2)
         with cols[0]:
 
@@ -220,7 +217,7 @@ def main():
             # Display the map
             df_slider = df_slider.fillna(0)
             st.write(
-                "Mapa de precios")
+                "Mapa de precios en 3D")
             st.pydeck_chart(pdk.Deck(
                 map_style='cartodbpositron',
                 initial_view_state=pdk.ViewState(
