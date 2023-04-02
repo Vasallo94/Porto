@@ -103,7 +103,8 @@ def main():
 
 # ---------------------------------------------------------------TABS---------------------------------------------------#
     st.title("Selecciona lo que te interese")
-    tabs = st.tabs(["Mapas", "Tipos de propiedades y alojamientos", "Consejos al turismo", 'Disponibilidad y precios para el 2023', 'Reseñas de los huéspedes'])
+    tabs = st.tabs(["Mapas", "Tipos de propiedades y alojamientos", "Consejos al turismo",
+                   'Disponibilidad y precios para el 2023', 'Reseñas de los huéspedes'])
 
     # -------------------------------------------------------TAB 1-----------------------------------------------------#
     tab_plots = tabs[0]  # this is the first tab
@@ -334,7 +335,8 @@ def main():
 
             fig1 = px.bar(feq1, x='review_scores_location', y=feq1.index, orientation='h',
                           color='review_scores_location', color_continuous_scale='RdYlGn')
-            fig1.update_layout(xaxis_title="Nota (1-5)", yaxis_title="", title="Nota por localización",)
+            fig1.update_layout(xaxis_title="Nota (1-5)",
+                               yaxis_title="", title="Nota por localización",)
 
             st.plotly_chart(fig1, use_container_width=True)
 
@@ -412,14 +414,34 @@ def main():
                              yaxis_title='Precio', template='plotly_dark')
         st.plotly_chart(precio, use_container_width=True)
 
+        # Leer los datos y convertir la columna 'date' en tipo datetime
+        df_cal['date'] = pd.to_datetime(df_cal['date'])
+
+        # Filtrar los datos para tener sólo los disponibles
+        df_available = df_cal[df_cal["available"] == "t"]
+
+        # Filtrar los datos para tener sólo los que acomodan a 2 personas
+        df_available = df_available[df_available['accommodates'] == 2]
+
+        # Obtener la cantidad disponible y el precio medio por día
+        df_available = df_available.groupby(['date']).agg(
+            {'available': 'sum', 'price_x': 'mean'}).reset_index()
+
+        # Agregar la columna de día de la semana
+        df_available['weekday'] = df_available['date'].dt.day_name()
+
+        # Crear el gráfico de dispersión
+        disp_precio = px.scatter(df_available, x='available', y='price_x',
+                                 hover_data=['date', 'weekday'], title='Disponibilidad vs. Precio', template='plotly_dark')
+        disp_precio.update_layout(xaxis_title='Disponibilidad',
+                                  yaxis_title='Precio', template='plotly_dark')
+
+        st.plotly_chart(disp_precio, use_container_width=True)
+
         # -------------------------------------------------------TAB 5-----------------------------------------------------#
     tab_plots = tabs[4]  # this is the third tab
     with tab_plots:
-        st.title('Disponibilidad y precios de los alojamientos para el 2023')
-        st.subheader('Lorem ipsum dolor sit amet...')
-
-        st.write('Lorem ipsum dolor sit amet...')
-
+        st.title('Notas de los alojamientos')
         # Select listings with at least 10 reviews
         listings10 = df_slider[df_slider['number_of_reviews'] >= 10]
 
