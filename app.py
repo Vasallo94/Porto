@@ -211,40 +211,40 @@ def main():
             st_folium(calorsita, returned_objects=[])
         with cols[1]:
             st.write('A ver si este gráfico funcioona')
-            # Display the map
-            # df_slider = df_slider.fillna(0)
-            # st.write(
-            #     "Mapa de precios en 3D")
-            # st.pydeck_chart(pdk.Deck(
-            #     map_style=None,
-            #     initial_view_state=pdk.ViewState(
-            #         latitude=41.1496,
-            #         longitude=-8.6109,
-            #         zoom=11,
-            #         pitch=45,
-            #     ),
-            #     layers=[
-            #         pdk.Layer(
-            #             'HexagonLayer',
-            #             data=df_slider,
-            #             get_position='[longitude, latitude]',
-            #             radius=100,
-            #             elevation_scale=4,
-            #             elevation_range=[0, 1000],
-            #             pickable=True,
-            #             extruded=True,
-            #             get_fill_color='[255, (1 - (price / 300)) * 255, 0]',
-            #             get_line_color='[255, 255, 255]',
-            #         ),
-            #         pdk.Layer(
-            #             'ScatterplotLayer',
-            #             data=df_slider,
-            #             get_position='[longitude, latitude]',
-            #             get_color='[200, 30, 0, 160]',
-            #             get_radius='price / 10',
-            #         ),
-            #     ],
-            # ))
+            Display the map
+            df_slider = df_slider.fillna(0)
+            st.write(
+                "Mapa de precios en 3D")
+            st.pydeck_chart(pdk.Deck(
+                map_style=None,
+                initial_view_state=pdk.ViewState(
+                    latitude=41.1496,
+                    longitude=-8.6109,
+                    zoom=11,
+                    pitch=45,
+                ),
+                layers=[
+                    pdk.Layer(
+                        'HexagonLayer',
+                        data=df_slider,
+                        get_position='[longitude, latitude]',
+                        radius=100,
+                        elevation_scale=4,
+                        elevation_range=[0, 1000],
+                        pickable=True,
+                        extruded=True,
+                        get_fill_color='[255, (1 - (price / 300)) * 255, 0]',
+                        get_line_color='[255, 255, 255]',
+                    ),
+                    pdk.Layer(
+                        'ScatterplotLayer',
+                        data=df_slider,
+                        get_position='[longitude, latitude]',
+                        get_color='[200, 30, 0, 160]',
+                        get_radius='price / 10',
+                    ),
+                ],
+            ))
 
             # -------------------------------------------------------TAB 2-----------------------------------------------------#
 
@@ -416,8 +416,8 @@ def main():
         st.plotly_chart(disponibilidad, use_container_width=True)
         # Gráfico del precio
 
-        average_price = df_cal[(df_cal.available == "t") & (
-            df_cal.accommodates == 2)].groupby(['date']).mean().astype(np.int64).reset_index()
+        average_price = df_cal[(df_cal[available] == "t") & (
+            df_cal[accommodates] == 2)].groupby(['date']).mean().astype(np.int64).reset_index()
         average_price['weekday'] = average_price['date'].dt.day_name()
         average_price = average_price.set_index('date')
         precio = px.line(average_price, x=average_price.index,
