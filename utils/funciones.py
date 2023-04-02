@@ -218,12 +218,8 @@ def response_rate_chart(df):
         font=dict(size=20),
         xaxis=dict(range=[0, 100])
     )
-    
-    # Eliminar los valores 0 del gráfico
-    fig.update_traces(xbins=dict(start=0, end=100, size=100/35))
-    fig.update_xaxes(tickvals=feq1)
-    
     return fig
+
 
 def response_time_chart(df):
     listings10 = df[df['number_of_reviews'] >= 10].dropna(
