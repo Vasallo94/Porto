@@ -253,7 +253,6 @@ def main():
 
     tab_plots = tabs[1]  # this is the second tab
     with tab_plots:
-
         st.title('Lorem ipsum dolor sit amet...')
         st.subheader(
             'Lorem ipsum dolor sit amet...')
@@ -262,46 +261,6 @@ def main():
 
         cols = st.columns(2)
         with cols[0]:
-            freq = df_slider['room_type'].value_counts(
-            ).sort_values(ascending=True)
-
-            room_by_type = px.bar(freq, orientation='h', color=freq.index,
-                                  labels={'y': 'Room Type', 'x': 'Number of Listings'}, template='plotly_dark')
-            room_by_type.update_layout(title="Number of Listings by Room Type",
-                                       xaxis_title="Number of Listings",
-                                       yaxis_title="Room Type",
-                                       height=400, width=800)
-            st.plotly_chart(room_by_type, use_container_width=True)
-
-        with cols[1]:
-            prop = df_slider.groupby(
-                ['property_type', 'room_type']).room_type.count()
-            prop = prop.unstack()
-            prop['total'] = prop.iloc[:, 0:3].sum(axis=1)
-            prop = prop.sort_values(by=['total'])
-            prop = prop[prop['total'] >= 100]
-            prop = prop.drop(columns=['total'])
-
-            proper = px.bar(prop, barmode='stack', orientation='h',
-                            color_discrete_sequence=[
-                                "rgb(255, 102, 102)", "rgb(102, 178, 255)", "rgb(102, 255, 178)"],
-                            width=1000, height=600)
-            proper.update_layout(title='Property types in Oporto', xaxis_title='Number of listings',
-                                 yaxis_title='', legend_title='', font=dict(size=14), template='plotly_dark')
-            st.plotly_chart(proper, use_container_width=True)
-        cols = st.columns(2)
-        with cols[0]:
-            feq = df_slider['accommodates'].value_counts(
-            ).sort_index().reset_index()
-            feq.columns = ['Accommodates', 'Number of listings']
-            accomm = px.bar(feq, x='Accommodates', y='Number of listings',
-                            color='Accommodates',
-                            width=700, height=600, template='plotly_dark')
-            accomm.update_layout(title={'text': "Accommodates (number of people)", 'x': 0.5},
-                                 xaxis_title='Accommodates', yaxis_title='Number of listings', font=dict(size=14))
-            st.plotly_chart(accomm, use_container_width=True)
-
-        with cols[1]:
             feq = df_slider['neighbourhood'].value_counts(
             ).sort_values(ascending=True)
             feq = feq[feq > 500]
@@ -315,6 +274,49 @@ def main():
                 font=dict(size=12)
             )
             st.plotly_chart(fig1,  use_container_width=True)
+
+        with cols[1]:
+
+            freq = df_slider['room_type'].value_counts(
+            ).sort_values(ascending=True)
+
+            room_by_type = px.bar(freq, orientation='h', color=freq.index,
+                                  labels={'y': 'Room Type', 'x': 'Number of Listings'}, template='plotly_dark')
+            room_by_type.update_layout(title="Number of Listings by Room Type",
+                                       xaxis_title="Number of Listings",
+                                       yaxis_title="Room Type",
+                                       height=400, width=800)
+            st.plotly_chart(room_by_type, use_container_width=True)
+        cols = st.columns(2)
+        with cols[0]:
+
+            prop = df_slider.groupby(
+                ['property_type', 'room_type']).room_type.count().sort_values(ascending=True)
+            prop = prop.unstack()
+            prop['total'] = prop.iloc[:, 0:3].sum(axis=1)
+            prop = prop.sort_values(by=['total'])
+            prop = prop[prop['total'] >= 100]
+            prop = prop.drop(columns=['total'])
+
+            proper = px.bar(prop, barmode='stack', orientation='h',
+                            color_discrete_sequence=[
+                                "rgb(255, 102, 102)", "rgb(102, 178, 255)", "rgb(102, 255, 178)"],
+                            width=1000, height=600)
+            proper.update_layout(title='Property types in Oporto', xaxis_title='Number of listings',
+                                 yaxis_title='', legend_title='', font=dict(size=14), template='plotly_dark')
+            st.plotly_chart(proper, use_container_width=True)
+
+        with cols[1]:
+
+            feq = df_slider['accommodates'].value_counts(
+            ).sort_index().reset_index()
+            feq.columns = ['Accommodates', 'Number of listings']
+            accomm = px.bar(feq, x='Accommodates', y='Number of listings',
+                            color='Accommodates',
+                            width=700, height=600, template='plotly_dark')
+            accomm.update_layout(title={'text': "Accommodates (number of people)", 'x': 0.5},
+                                 xaxis_title='Accommodates', yaxis_title='Number of listings', font=dict(size=14))
+            st.plotly_chart(accomm, use_container_width=True)
             # -------------------------------------------------------TAB 3-----------------------------------------------------#
     tab_plots = tabs[2]  # this is the third tab
     with tab_plots:
