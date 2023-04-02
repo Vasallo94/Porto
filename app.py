@@ -431,6 +431,28 @@ def main():
 
         st.image(wordcloud, caption='Nube de palabras hecha analizando las palabras más repetidas en los comentarios.',
                  use_column_width='auto')
+       # -------------------------------------------------------TAB 4-----------------------------------------------------#
+    tab_plots = tabs[3]  # this is the third tab
+    with tab_plots:
+        st.title('Consejos al turismo')
+        st.subheader('Lorem ipsum dolor sit amet...')
+
+        st.write('Lorem ipsum dolor sit amet...')
+
+        # Carga de datos
+        feq = df_slider[df_slider['accommodates']==2]
+        feq = feq.groupby('neighbourhood')['price'].mean().sort_values(ascending=True).reset_index()
+
+        # Crear gráfico
+        fig = px.bar(feq, x='price', y='neighbourhood', orientation='h')
+        fig.update_layout(
+            title="Average daily price for a 2-persons accommodation",
+            xaxis_title="Average daily price (Euro)",
+            yaxis_title="",
+            font=dict(size=18)
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
 
 
 if __name__ == '__main__':
