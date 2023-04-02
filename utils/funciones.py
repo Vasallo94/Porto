@@ -11,6 +11,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import seaborn as sns
 import matplotlib.pyplot as plt
+import plotly_express as px
 
 
 def filtrar_por_distancia(df, distancia_km, lat_ref=41.1496, lon_ref=-8.6109):
