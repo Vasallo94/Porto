@@ -192,7 +192,6 @@ def main():
         with cols[0]:
 
             st.write('Mapa de calor de los precios del alojamiento:')
-            # TODO hacer que el mapa se centre bien
             # Mapa de calor basándome en uno de Demetrio
             # Get the minimum and maximum price values
             min_price = df_slider['price'].min()
@@ -203,7 +202,6 @@ def main():
             # Create the map
             calorsita = folium.Map(
                 location=[41.1496, -8.6109], tiles='cartodbpositron', zoom_start=15, use_container_width=True)
-
             # Add a heatmap to the base map
             HeatMap(data=df_slider[['latitude', 'longitude', 'price']],
                     radius=20,
@@ -253,11 +251,7 @@ def main():
 
     tab_plots = tabs[1]  # this is the second tab
     with tab_plots:
-        st.title('Lorem ipsum dolor sit amet...')
-        st.subheader(
-            'Lorem ipsum dolor sit amet...')
-
-        st.write('Lorem ipsum dolor sit amet...')
+        st.title('Tipos de propiedades, alojamientos y número de huéspedes')
 
         cols = st.columns(2)
         with cols[0]:
@@ -299,7 +293,7 @@ def main():
             room_by_type = px.bar(freq, barmode='stack', orientation='h', color=freq.index,
                                   labels={'y': 'Room Type', 'x': 'Number of Listings'}, template='plotly_dark', color_discrete_sequence=[
                                       "rgb(255, 102, 102)", "rgb(102, 178, 255)", "rgb(102, 255, 178)", "rgb(12, 235, 738)"])
-            room_by_type.update_layout(title="Número de reservas por tipo de Habitación",
+            room_by_type.update_layout(title="Número de reservas por tipo de alojamiento",
                                        xaxis_title="Número",
                                        yaxis_title='')
             st.plotly_chart(room_by_type, use_container_width=True)
@@ -312,8 +306,8 @@ def main():
             accomm = px.bar(feq, x='Accommodates', y='Number of listings',
                             color='Accommodates',
                             width=700, height=600, template='plotly_dark')
-            accomm.update_layout(title={'text': "Accommodates (number of people)", 'x': 0.5},
-                                 xaxis_title='Accommodates', yaxis_title='Number of listings', font=dict(size=14))
+            accomm.update_layout(title={'text': "Número de huéspedes", 'x': 0.5},
+                                 xaxis_title='Huéspedes', yaxis_title='Número', font=dict(size=14))
             st.plotly_chart(accomm, use_container_width=True)
             # -------------------------------------------------------TAB 3-----------------------------------------------------#
     tab_plots = tabs[2]  # this is the third tab
