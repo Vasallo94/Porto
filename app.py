@@ -379,9 +379,9 @@ def main():
         # mostrar gráfico en Streamlit
         st.plotly_chart(fig_super, use_container_width=True)
 
-        sh_v_h = px.scatter(df_slider, x="Superhost", y="Price", color="Superhost",
+        sh_v_h = px.scatter(df_slider, x="host_is_superhost", y="price", color="host_is_superhost",
                             color_discrete_map={"f": "red", "t": "green"},
-                            labels={"Superhost": "Superhost", "Price": "Precio"}, template='plotly_dark')
+                            labels={"host_is_superhost": "Superhost", "price": "Precio"}, template='plotly_dark')
         sh_v_h.update_layout(title="Precios de Superhost",
                              xaxis=dict(tickmode='linear'))
         st.plotly_chart(sh_v_h, use_container_width=True)
