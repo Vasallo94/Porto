@@ -247,7 +247,7 @@ def main():
             #     ],
             # ))
 
-# -------------------------------------------------------TAB 2-----------------------------------------------------#
+            # -------------------------------------------------------TAB 2-----------------------------------------------------#
 
     tab_plots = tabs[1]  # this is the second tab
     with tab_plots:
@@ -395,45 +395,38 @@ def main():
     tab_plots = tabs[5]  # this is the third tab
     with tab_plots:
 
-        st.title('Lorem ipsum dolor sit amet...')
-        st.subheader('Lorem ipsum dolor sit amet...')
+        st.title('Disponibilidad y precio para el 2023:')
+        # Leer los datos y convertir la columna 'date' en tipo datetime
+        df_calendar['date'] = pd.to_datetime(df_calendar['date'])
+        df_calendar = pd.merge(df_slider, df_calendar,
+                               left_on='id', right_index=True)
 
-        st.write('Lorem ipsum dolor sit amet...')
+        # Filtrar los datos para tener sólo los disponibles
+        sum_available = df_calendar[df_calendar.available == "t"].groupby(
+            ['date']).size().to_frame(name='available').reset_index()
 
-        cols = st.columns(2)
-        with cols[0]:
-            st.write('Lorem ipsum dolor sit amet...')
-            df_calendar = pd.merge(
-                df_slider, df_calendar, left_on='id', right_index=True)
-            # Leer los datos y convertir la columna 'date' en tipo datetime
-            df_calendar['date'] = pd.to_datetime(df_calendar['date'])
+        # Agregar la columna de día de la semana
+        sum_available['weekday'] = sum_available['date'].dt.day_name()
 
-            # Filtrar los datos para tener sólo los disponibles
-            sum_available = df_calendar[df_calendar.available == "t"].groupby(
-                ['date']).size().to_frame(name='available').reset_index()
+        # Establecer 'date' como el índice del DataFrame
+        sum_available = sum_available.set_index('date')
 
-            # Agregar la columna de día de la semana
-            sum_available['weekday'] = sum_available['date'].dt.day_name()
+        # Crear la figura de Plotly Express
+        disponibilidad = px.line(
+            sum_available, y='Disponible', title='Número de reservas disponibles por fecha', template='plotly_dark')
+        st.plotly_chart(disponibilidad, use_container_width=True)
+        # Gráfico del precio
 
-            # Establecer 'date' como el índice del DataFrame
-            sum_available = sum_available.set_index('date')
-
-            # Crear la figura de Plotly Express
-            disponibilidad = px.line(
-                sum_available, y='Disponible', title='Número de reservas disponibles por fecha', template='plotly_dark')
-            st.plotly_chart(disponibilidad, use_container_width=True)
-        with cols[1]:
-            st.write('Lorem ipsum dolor sit amet...')
-            average_price = df_calendar[(df_calendar.available == "t") & (
-                df_calendar.accommodates == 2)].groupby(['date']).mean().astype(np.int64).reset_index()
-            average_price['weekday'] = average_price['date'].dt.day_name()
-            average_price = average_price.set_index('date')
-            precio = px.line(average_price, x=average_price.index,
-                             y='price_x', title='Precio medio para dos personas')
-            precio.update_traces(text=average_price['weekday'])
-            precio.update_layout(xaxis_title='Fecha',
-                                 yaxis_title='Precio', template='plotly_dark')
-            st.plotly_chart(precio, use_container_width=True)
+        average_price = df_calendar[(df_calendar.available == "t") & (
+            df_calendar.accommodates == 2)].groupby(['date']).mean().astype(np.int64).reset_index()
+        average_price['weekday'] = average_price['date'].dt.day_name()
+        average_price = average_price.set_index('date')
+        precio = px.line(average_price, x=average_price.index,
+                         y='price_x', title='Precio medio para dos personas')
+        precio.update_traces(text=average_price['weekday'])
+        precio.update_layout(xaxis_title='Fecha',
+                             yaxis_title='Precio', template='plotly_dark')
+        st.plotly_chart(precio, use_container_width=True)
 
 
 if __name__ == '__main__':
