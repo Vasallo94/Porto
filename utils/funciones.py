@@ -201,3 +201,63 @@ def correlation_papa(df, annot=True, figsize=(10, 10), cmap='coolwarm'):
     plt.figure(figsize=figsize)
     sns.heatmap(corr, annot=annot, cmap=cmap)
     plt.show()
+
+
+def response_rate_chart(df):
+    listings10 = df[df['number_of_reviews'] >= 10]
+    feq1 = listings10['host_response_rate'].replace(
+        0, np.nan).dropna().sort_values(ascending=True)
+
+    fig = px.histogram(feq1, nbins=35)
+    fig.update_layout(
+        title='Tasa de respuesta (al menos 10 reseñas)',
+        xaxis_title='Porcentaje',
+        yaxis_title='Número de anuncios',
+        font=dict(size=20),
+        xaxis=dict(range=[0, 100])
+    )
+    return fig
+
+
+def response_time_chart(df):
+    listings10 = df[df['number_of_reviews'] >= 10].dropna(
+        subset=['host_response_time'])
+
+    fig = px.bar(listings10['host_response_time'].value_counts().reset_index(),
+                 x='index',
+                 y='host_response_time',
+                 labels={'index': 'Tiempo de respuesta',
+                         'host_response_time': 'Número'},
+                 color_discrete_sequence=['#636EFA'])
+    fig.update_layout(
+        title='Tiempo de respuesta (al menos 10 reseñas)',
+        xaxis_title_font_size=20,
+        yaxis_title_font_size=20,
+        font=dict(size=16),
+        yaxis=dict(range=[0, None])
+    )
+    return fig
+
+
+def response_charts(df):
+    fig1 = response_rate_chart(df)
+    fig2 = response_time_chart(df)
+
+    # Create subplot with 1 row and 2 columns, with titles for each subplot
+    figs = sp.make_subplots(rows=1, cols=2, subplot_titles=(
+        "Tasa de respuesta", "Tiempo de respuesta"))
+
+    # Add each bar chart to the subplot
+    figs.add_trace(fig1['data'][0], row=1, col=1)
+    figs.add_trace(fig2['data'][0], row=1, col=2)
+
+    # Update layout for the subplot
+    figs.update_layout(
+        title_text="Respuestas",
+        height=400,
+        width=1000,
+        font_size=12,
+        showlegend=False,
+        template='plotly_dark'
+    )
+    return figs

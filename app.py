@@ -329,33 +329,75 @@ def main():
     tab_plots = tabs[3]  # this is the third tab
     with tab_plots:
         st.title('Consejos al turismo')
+        cols = st.columns(2)
+        with cols[0]:
+            st.write('Precios por freguesias:')
+            # Carga de datos
+            feq = df_slider[df_slider['accommodates'] == 2]
+            feq = feq.groupby('neighbourhood')['price'].mean(
+            ).sort_values(ascending=True).reset_index()
 
-        # Carga de datos
-        feq = df_slider[df_slider['accommodates'] == 2]
-        feq = feq.groupby('neighbourhood')['price'].mean(
-        ).sort_values(ascending=True).reset_index()
+            # Crear gráfico
+            fig = px.bar(feq, x='price', y='neighbourhood', orientation='h')
+            fig.update_layout(
+                title="Precio medio para dos huéspedes",
+                xaxis_title="Precio (Euro)",
+                yaxis_title="",
+                font=dict(size=18)
+            )
+            st.plotly_chart(fig, use_container_width=True)
+        with cols[1]:
+            # Group by neighbourhood and calculate the mean review score location for listings with at least 10 reviews
+            feq1 = df_slider[df_slider['number_of_reviews'] >= 10].groupby(
+                'neighbourhood')['review_scores_location'].mean().sort_values(ascending=True)
 
-        # Crear gráfico
-        fig = px.bar(feq, x='price', y='neighbourhood', orientation='h')
-        fig.update_layout(
-            title="Average daily price for a 2-persons accommodation",
-            xaxis_title="Average daily price (Euro)",
-            yaxis_title="",
-            font=dict(size=18)
-        )
-        st.plotly_chart(fig, use_container_width=True)
-
-        # Group by neighbourhood and calculate the mean review score location for listings with at least 10 reviews
-        feq1 = df_slider[df_slider['number_of_reviews'] >= 10].groupby(
-            'neighbourhood')['review_scores_location'].mean().sort_values(ascending=True)
-
-        # Create bar chart using Plotly Express
-        fig1 = px.bar(feq1, x='review_scores_location', y=feq1.index, orientation='h',
-                      color='review_scores_location', color_continuous_scale='RdYlGn')
-        fig1.update_layout(xaxis_title="Score (scale 1-10)", yaxis_title="")
+            # Create bar chart using Plotly Express
+            fig1 = px.bar(feq1, x='review_scores_location', y=feq1.index, orientation='h',
+                        color='review_scores_location', color_continuous_scale='RdYlGn')
+            fig1.update_layout(xaxis_title="Nota (1-5)", yaxis_title="")
 
         # Render the chart using Streamlit
         st.plotly_chart(fig1)
+        cols = st.columns(2)
+        with cols[0]:
+            st.write('# Información sobre los host')
+            # Muestra los gráficos en la interfaz
+            figs = response_charts(df_slider)
+            st.plotly_chart(figs)
+        with cols[1]:
+            # calcular frecuencias
+            df_frequencies = df_slider['host_is_superhost'].value_counts(
+                normalize=True).reset_index()
+            df_frequencies.columns = ['Superhost', 'Percentage']
+            df_frequencies['Percentage'] = df_frequencies['Percentage'] * 100
+
+            # crear gráfico de barras
+            fig_super = px.bar(df_frequencies, x='Superhost', y='Percentage',
+                               labels={'Superhost': 'Superhost',
+                                       'Percentage': 'Percentage (%)'},
+                               color='Superhost',
+                               color_discrete_map={'f': 'rgb(255, 0, 0)', 't': 'rgb(0, 128, 0)'})
+
+            # personalizar texto y leyenda
+            fig_super.update_traces(
+                texttemplate='%{y:.2f}%', textposition='inside')
+            fig_super.update_layout(
+                uniformtext_minsize=8, uniformtext_mode='hide')
+            fig_super.update_layout(legend_title='Superhost', legend=dict(
+                orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
+
+            # personalizar diseño
+            fig_super.update_layout(
+                title_text="Porcentaje de Superhost",
+                height=400,
+                width=1000,
+                font_size=12,
+                showlegend=False,
+                template='plotly_dark'
+            )
+
+            # mostrar gráfico en Streamlit
+            st.plotly_chart(fig_super)
 
         # -------------------------------------------------------TAB 6-----------------------------------------------------#
     tab_plots = tabs[4]  # this is the third tab
