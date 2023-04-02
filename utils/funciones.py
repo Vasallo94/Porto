@@ -210,7 +210,7 @@ def response_rate_chart(df):
 
     feq1 = listings10['host_response_rate'].replace(
         0, np.nan).dropna().sort_values(ascending=True)
-    feq1 = feq1[feq1.host_response_rate != 0]
+    feq1 = feq1[feq1['host_response_rate'] != 0]
 
     fig = px.histogram(feq1, nbins=35)
     fig.update_layout(
