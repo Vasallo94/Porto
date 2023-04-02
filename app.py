@@ -396,12 +396,10 @@ def main():
 
         st.title('Disponibilidad y precio para el 2023:')
         # Leer los datos y convertir la columna 'date' en tipo datetime
+        # Leer los datos y convertir la columna 'date' en tipo datetime
         df_cal['date'] = pd.to_datetime(df_cal['date'])
-        df_cal = pd.merge(df_slider, df_cal,
-                          left_on='id', right_index=True)
-
         # Filtrar los datos para tener sólo los disponibles
-        sum_available = df_cal[df_cal.available == "t"].groupby(
+        sum_available = df_cal[df_cal["available"] == "t"].groupby(
             ['date']).size().to_frame(name='available').reset_index()
 
         # Agregar la columna de día de la semana
@@ -411,8 +409,8 @@ def main():
         sum_available = sum_available.set_index('date')
 
         # Crear la figura de Plotly Express
-        disponibilidad = px.line(
-            sum_available, y='available', title='Número de reservas disponibles por fecha', template='plotly_dark')
+        disponibilidad = px.line(sum_available, y='available',
+                                 title='Number of listings available by date', template='plotly_dark')
         st.plotly_chart(disponibilidad, use_container_width=True)
         # Gráfico del precio
 
