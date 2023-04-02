@@ -294,8 +294,7 @@ def main():
         cols = st.columns(2)
         with cols[0]:
 
-            freq = df_slider['room_type'].value_counts(
-            ).sort_values(ascending=True)
+            freq = df_slider['room_type'].value_counts().sort_ascending(False)
 
             room_by_type = px.bar(freq, orientation='h', color=freq.index,
                                   labels={'y': 'Room Type', 'x': 'Number of Listings'}, template='plotly_dark', color_discrete_sequence=[
