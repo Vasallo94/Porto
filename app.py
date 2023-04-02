@@ -296,9 +296,9 @@ def main():
 
             freq = df_slider['room_type'].value_counts()
 
-            room_by_type = px.bar(freq, orientation='h', color=freq.index,
+            room_by_type = px.bar(freq, barmode='stack', orientation='h', color=freq.index,
                                   labels={'y': 'Room Type', 'x': 'Number of Listings'}, template='plotly_dark', color_discrete_sequence=[
-                                      "rgb(255, 102, 102)", "rgb(102, 178, 255)", "rgb(102, 255, 178)", "rgb(12, 235, 738)"], ascending=False)
+                                      "rgb(255, 102, 102)", "rgb(102, 178, 255)", "rgb(102, 255, 178)", "rgb(12, 235, 738)"])
             room_by_type.update_layout(title="Número de reservas por tipo de Habitación",
                                        xaxis_title="Número",
                                        yaxis_title='')
