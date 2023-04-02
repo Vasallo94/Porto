@@ -185,15 +185,14 @@ def main():
                 highlight_function=highlight_function
             ).add_to(map3)
 
-        cols = st.columns(2)
-        with cols[0]:
-
             # Add marker to map
             folium.Marker(location=[41.1496, -8.6109]).add_to(map3)
 
             # Add color scale to map
             color_scale.add_to(map3)
             st_folium(map3, returned_objects=[])
+        cols = st.columns(2)
+        with cols[0]:
 
             st.write('Mapa de calor de los precios del alojamiento:')
             # TODO hacer que el mapa se centre bien
@@ -219,10 +218,9 @@ def main():
             st_folium(calorsita, returned_objects=[])
         with cols[1]:
             # Display the map
-
-            # ! Volver a poner si se rompe todo df_slider = df_slider.fillna(0)
+            df_slider = df_slider.fillna(0)
             st.write(
-                "Aquí se podría poner el código que muestra los tipos de habitaciones pero no funciona aún.")
+                "Mapa de precios")
             st.pydeck_chart(pdk.Deck(
                 map_style='cartodbpositron',
                 initial_view_state=pdk.ViewState(
