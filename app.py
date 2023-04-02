@@ -308,6 +308,7 @@ def main():
             accomm.update_layout(title={'text': "Número de huéspedes", 'x': 0.5},
                                  xaxis_title='Huéspedes', yaxis_title='Número', font=dict(size=14))
             st.plotly_chart(accomm, use_container_width=True)
+
             # -------------------------------------------------------TAB 3-----------------------------------------------------#
     tab_plots = tabs[2]  # this is the third tab
     with tab_plots:
