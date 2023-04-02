@@ -309,24 +309,8 @@ def main():
                                  xaxis_title='Huéspedes', yaxis_title='Número', font=dict(size=14))
             st.plotly_chart(accomm, use_container_width=True)
 
-            # -------------------------------------------------------TAB 3-----------------------------------------------------#
-    tab_plots = tabs[2]  # this is the third tab
-    with tab_plots:
-
-        st.title('Lorem ipsum dolor sit amet...')
-        st.subheader('Lorem ipsum dolor sit amet...')
-
-        st.write('Lorem ipsum dolor sit amet...')
-
-        cols = st.columns(2)
-        with cols[0]:
-            st.write('Lorem ipsum dolor sit amet...')
-
-        with cols[1]:
-            st.write('Lorem ipsum dolor sit amet...')
-
         # -------------------------------------------------------TAB 4-----------------------------------------------------#
-    tab_plots = tabs[3]  # this is the third tab
+    tab_plots = tabs[2]  # this is the third tab
     with tab_plots:
         st.title('Consejos al turismo')
         cols = st.columns(2)
@@ -355,7 +339,7 @@ def main():
             fig1.update_layout(xaxis_title="Nota (1-5)", yaxis_title="")
 
             st.plotly_chart(fig1, use_container_width=True)
-            
+
         st.markdown('---')
         st.write('# Información sobre los host')
         # Muestra los gráficos en la interfaz
@@ -396,7 +380,7 @@ def main():
         st.plotly_chart(fig_super, use_container_width=True)
 
         # -------------------------------------------------------TAB 6-----------------------------------------------------#
-    tab_plots = tabs[4]  # this is the third tab
+    tab_plots = tabs[3]  # this is the third tab
     with tab_plots:
 
         st.title('Disponibilidad y precio para el 2023:')
@@ -431,7 +415,7 @@ def main():
         st.plotly_chart(precio, use_container_width=True)
 
         # -------------------------------------------------------TAB 5-----------------------------------------------------#
-    tab_plots = tabs[5]  # this is the third tab
+    tab_plots = tabs[4]  # this is the third tab
     with tab_plots:
         st.title('Disponibilidad y precios de los alojamientos para el 2023')
         st.subheader('Lorem ipsum dolor sit amet...')
