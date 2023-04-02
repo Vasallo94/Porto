@@ -64,7 +64,7 @@ def main():
     # second column, this is the title
     with col2:
         st.title(
-            "Análisis de la situación de Airbnb en la ciudad de Oporto y sus alrededores")
+            "Airbnb: Oporto")
     with col3:
         image = Image.open('img/porto.jpeg')
 
@@ -79,11 +79,11 @@ def main():
         'http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/data/reviews.csv.gz', parse_dates=['date'])
 
     df_55 = pd.read_csv('output/df_55.csv')
-
+    st.subheader("Análisis de la situación del alquiler de alojamientos en Airbnb en la ciudad e Oporto y sus alrededores.")
 # -----------------------------------------------------------SLIDER--------------------------------------------#
     # Filtrar el dataframe según la distancia seleccionada
     # Crear el slider para seleccionar la distancia máxima
-    distancia = st.slider("Selecciona la distancia máxima (en km)", 1, 60, 25)
+    distancia = st.slider("Seleccione la distancia máxima a la que mostrar resultados (km):", 1, 60, 25)
 
     # Crear un nuevo dataframe filtrando los valores de la columna de distancias
     df_slider = df_55[df_55['distancia'] < distancia]
