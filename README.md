@@ -1,8 +1,6 @@
 # Porto
-Un estudio de los datos de Airbnb de la ciudad de Oporto y alrededores.
+Un estudio de los datos de Airbnb de la ciudad de Oporto y alrededores. [Datos](http://insideairbnb.com/get-the-data/)
 
 En desarrollo. 
-
-Errores everywhere.
 
 [Streamlit app](https://vasallo94-porto-app-qf8397.streamlit.app)
