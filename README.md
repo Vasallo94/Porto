@@ -1,5 +1,5 @@
 # Porto
-Un estudio de los datos de Airbnb de la ciudad de Oporto y alrededores. [Datos](http://insideairbnb.com/get-the-data/)
+Un estudio de los datos de Airbnb de la ciudad de Oporto y alrededores. [Inside Airbnb: datos](http://insideairbnb.com/get-the-data/)
 
 En desarrollo. 
 
