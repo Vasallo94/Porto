@@ -38,6 +38,8 @@ GitPython==3.1.42
 idna==3.6
 imbalanced-learn==0.12.0
 importlib_metadata==7.0.2
+ipykernel==6.29.3
+ipython==8.22.2
 ipywidgets==8.1.2
 itsdangerous==2.1.2
 jedi==0.19.1
