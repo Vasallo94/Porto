@@ -1,14 +1,20 @@
+import base64
+from io import BytesIO
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import plotly.subplots as sp
 import plotly_express as px
 import seaborn as sns
+from PIL import Image
 from sklearn.impute import KNNImputer, SimpleImputer
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.model_selection import GridSearchCV, KFold, train_test_split
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import LabelEncoder, MinMaxScaler, StandardScaler
+
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler, StandardScaler
 
 
@@ -230,18 +236,16 @@ def response_rate_chart(df):
     )
     return fig
 
-
 def response_time_chart(df):
     listings10 = df[df["number_of_reviews"] >= 10].dropna(subset=["host_response_time"])
-
     # Eliminar los valores 0 del dataframe
     listings10 = listings10[listings10["host_response_time"] != 0]
-
+    df_response_time = listings10["host_response_time"].value_counts().reset_index(name="count")
     fig = px.bar(
-        listings10["host_response_time"].value_counts().reset_index(),
-        x="index",
-        y="host_response_time",
-        labels={"index": "Tiempo de respuesta", "host_response_time": "Número"},
+        df_response_time,
+        x="host_response_time",  # Corrected 'x' argument
+        y="count",
+        labels={"host_response_time": "Tiempo de respuesta", "count": "Número"},
         color_discrete_sequence=["#636EFA"],
     )
     fig.update_layout(
@@ -252,7 +256,6 @@ def response_time_chart(df):
         yaxis=dict(range=[0, None]),
     )
     return fig
-
 
 def response_charts(df):
     fig1 = response_rate_chart(df)
@@ -277,3 +280,9 @@ def response_charts(df):
         template="plotly_dark",
     )
     return figs
+
+def image_to_base64(img):
+    buffered = BytesIO()
+    img.save(buffered, format="PNG")
+    img_str = base64.b64encode(buffered.getvalue()).decode()
+    return img_str
