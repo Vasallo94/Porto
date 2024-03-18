@@ -1,6 +1,6 @@
 venv
 .venv
 /venv
-logs.log
-.logs.log
+
+/.logs.log
 /logs.log
