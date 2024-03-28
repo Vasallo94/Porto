@@ -15,13 +15,23 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler, StandardScaler
 
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler, StandardScaler
-
 
 def filtrar_por_distancia(df, distancia_km, lat_ref=41.1496, lon_ref=-8.6109):
+    """
+    Filters a DataFrame based on the distance from a reference point.
+
+    Args:
+        df (pandas.DataFrame): The DataFrame to filter.
+        distancia_km (float): The maximum distance in kilometers.
+        lat_ref (float, optional): The latitude of the reference point. Defaults to 41.1496.
+        lon_ref (float, optional): The longitude of the reference point. Defaults to -8.6109.
+
+    Returns:
+        pandas.DataFrame: The filtered DataFrame containing only rows within the maximum distance.
+    """
     # convert latitude and longitude columns to numeric
-    df["latitude"] = pd.to_numeric(df["latitude"], errors="coerce")
-    df["longitude"] = pd.to_numeric(df["longitude"], errors="coerce")
+    df.loc[:, "latitude"] = pd.to_numeric(df["latitude"], errors="coerce")
+    df.loc[:, "longitude"] = pd.to_numeric(df["longitude"], errors="coerce")
 
     # drop any rows with missing values in latitude or longitude columns
     df = df.dropna(subset=["latitude", "longitude"])
@@ -169,6 +179,20 @@ def desfritas(df_encoded, encoder_info):
 
 
 def pure(df, method="minmax"):
+    """
+    Apply scaling to a DataFrame using either MinMaxScaler or StandardScaler.
+
+    Parameters:
+        df (pandas.DataFrame): The DataFrame to be scaled.
+        method (str, optional): The scaling method to be used. Default is "minmax".
+
+    Returns:
+        tuple: A tuple containing the scaled DataFrame and the scaler object used.
+
+    Raises:
+        ValueError: If the method is not "minmax" or "standard".
+
+    """
     scaler = None
     if method == "minmax":
         scaler = MinMaxScaler()
@@ -183,6 +207,21 @@ def pure(df, method="minmax"):
 
 
 def cortar_en_tiritas(df, target_column, test_size=0.2, random_state=None):
+    """
+    Split the input DataFrame into training and testing sets.
+
+    Parameters:
+    - df (DataFrame): The input DataFrame.
+    - target_column (str): The name of the target column to be dropped.
+    - test_size (float): The proportion of the dataset to include in the test split.
+    - random_state (int): Controls the shuffling applied to the data before splitting.
+
+    Returns:
+    - X_train (DataFrame): The training set without the target column.
+    - X_test (DataFrame): The testing set without the target column.
+    - y_train (Series): The target column for the training set.
+    - y_test (Series): The target column for the testing set.
+    """
     X = df.drop(target_column, axis=1)
     y = df[target_column]
     X_train, X_test, y_train, y_test = train_test_split(
@@ -192,6 +231,18 @@ def cortar_en_tiritas(df, target_column, test_size=0.2, random_state=None):
 
 
 def evaluar_papata(model, X_test, y_test):
+    """
+    Evaluate the performance of a model by calculating mean squared error (mse),
+    mean absolute error (mae), and r-squared (r2) scores.
+
+    Parameters:
+    - model: The trained model object.
+    - X_test: The input features for testing.
+    - y_test: The target variable for testing.
+
+    Returns:
+    A dictionary containing the mse, mae, and r2 scores.
+    """
     y_pred = model.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     mae = mean_absolute_error(y_test, y_pred)
@@ -200,6 +251,15 @@ def evaluar_papata(model, X_test, y_test):
 
 
 def papas_perdidas(df):
+    """
+    Calculate the number and percentage of missing values in a DataFrame.
+
+    Parameters:
+    df (pandas.DataFrame): The DataFrame to analyze.
+
+    Returns:
+    pandas.DataFrame: A DataFrame containing the number and percentage of missing values for each column.
+    """
     missing_values = df.isnull().sum()
     missing_values_percentage = 100 * missing_values / len(df)
     missing_values_table = pd.concat(
@@ -210,6 +270,18 @@ def papas_perdidas(df):
 
 
 def correlation_papa(df, annot=True, figsize=(10, 10), cmap="coolwarm"):
+    """
+    Plot a correlation heatmap for the numeric columns of a DataFrame.
+
+    Parameters:
+    - df (DataFrame): The input DataFrame.
+    - annot (bool, optional): Whether to annotate the heatmap with correlation values. Defaults to True.
+    - figsize (tuple, optional): The size of the figure. Defaults to (10, 10).
+    - cmap (str, optional): The color map to use for the heatmap. Defaults to "coolwarm".
+
+    Returns:
+    None
+    """
     numeric_columns = df.select_dtypes(include=["int64", "float64"]).columns
     corr = df[numeric_columns].corr()
     plt.figure(figsize=figsize)
@@ -236,11 +308,14 @@ def response_rate_chart(df):
     )
     return fig
 
+
 def response_time_chart(df):
     listings10 = df[df["number_of_reviews"] >= 10].dropna(subset=["host_response_time"])
     # Eliminar los valores 0 del dataframe
     listings10 = listings10[listings10["host_response_time"] != 0]
-    df_response_time = listings10["host_response_time"].value_counts().reset_index(name="count")
+    df_response_time = (
+        listings10["host_response_time"].value_counts().reset_index(name="count")
+    )
     fig = px.bar(
         df_response_time,
         x="host_response_time",  # Corrected 'x' argument
@@ -256,6 +331,7 @@ def response_time_chart(df):
         yaxis=dict(range=[0, None]),
     )
     return fig
+
 
 def response_charts(df):
     fig1 = response_rate_chart(df)
@@ -280,6 +356,7 @@ def response_charts(df):
         template="plotly_dark",
     )
     return figs
+
 
 def image_to_base64(img):
     buffered = BytesIO()
