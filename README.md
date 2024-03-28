@@ -17,7 +17,7 @@ Este proyecto tiene como objetivo realizar un análisis exhaustivo de los datos 
 ## Instrucciones de Uso
 
 1. Clona este repositorio en tu máquina local.
-2. Instala las dependencias necesarias ejecutando el siguiente comando: `pip install -r requirements.txt`.
+2. Instala las dependencias necesarias ejecutando el siguiente comando: `pip install -r requirements_venv.txt`.
 3. Ejecuta la aplicación de Streamlit utilizando el siguiente comando: `streamlit run app.py`.
 4. Abre tu navegador web y visita `http://localhost:8501` para acceder a la aplicación.
 
