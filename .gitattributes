@@ -1,3 +1,4 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 output/reviews.csv filter=lfs diff=lfs merge=lfs -text
+output/df_reviews.csv filter=lfs diff=lfs merge=lfs -text
