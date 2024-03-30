@@ -654,8 +654,8 @@ def main():
         pol = go.Figure(data=[go.Histogram(x=df_reviews_en["compound"], nbinsx=100)])
         pol.update_layout(
             title="Distribución de la polaridad de los comentarios",
-            xaxis_title="compound",
-            yaxis_title="count",
+            xaxis_title="Polatity",
+            yaxis_title="Recuento de comentarios",
         )
         st.plotly_chart(pol, use_container_width=True)
         st.markdown("---")
