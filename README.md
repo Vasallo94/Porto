@@ -7,7 +7,7 @@ Este proyecto tiene como objetivo realizar un análisis exhaustivo de los datos 
 - Utilizamos la plataforma de Streamlit para desarrollar una aplicación interactiva que permite explorar y visualizar los datos de Airbnb en Oporto.
 - La aplicación está desplegada en [https://oportoairbnb.streamlit.app](https://oportoairbnb.streamlit.app).
 - Los datos utilizados en este proyecto se obtuvieron de [insideairbnb](https://insideairbnb.com) y se procesaron para su análisis.
-- Implementamos diversas técnicas de análisis de datos, incluyendo visualizaciones interactivas, modelos predictivos y NLP.
+- Implementamos diversas técnicas de análisis de datos, incluyendo visualizaciones interactivas y NLP para análisis de sentimientos de los comentarios.
 
 ## Requisitos del Sistema
 
@@ -29,6 +29,9 @@ Este proyecto tiene como objetivo realizar un análisis exhaustivo de los datos 
 2. Crea una rama con un nombre descriptivo para tu contribución.
 3. Realiza tus cambios y mejoras.
 4. Envía un pull request para revisar tus cambios.
+
+## TODO
+- [ ] Implementar un modelo de machine learning para predecir el precio de los alojamientos.
 
 ## Contacto
 
