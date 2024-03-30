@@ -1,6 +1,4 @@
 # --------------------LIBRERÍAS----------------------------#
-import json
-import os
 import warnings
 from webbrowser import get
 
@@ -18,10 +16,9 @@ import requests
 import seaborn as sns
 import streamlit as st
 from branca.colormap import LinearColormap
-from folium.plugins import (FastMarkerCluster, FloatImage, HeatMap,
-                            MarkerCluster)
+from folium.plugins import FastMarkerCluster, FloatImage, HeatMap, MarkerCluster
 from PIL import Image
-from plotly.offline import init_notebook_mode, iplot
+from plotly.offline import init_notebook_mode
 from plotly.subplots import make_subplots
 from streamlit_folium import st_folium
 from streamlit_lottie import st_lottie
@@ -600,37 +597,49 @@ def main():
 
         # Show the plot
         st.plotly_chart(scores, use_container_width=True)
-        
-# -------------------------------------------------------TAB 5-----------------------------------------------------#
-        tab_plots = tabs[5]  
+
+        # -------------------------------------------------------TAB 5-----------------------------------------------------#
+        tab_plots = tabs[5]
     with tab_plots:
         st.title("Análisis de los sentimientos en los comentarios")
-        st.write("En este apartado se analizarán los sentimientos de los comentarios de los huéspedes.")
-        st.write("Para ello, primero se han identificado los idiomas más repetidos en los comentarios.")
-        lang = px.histogram(languages, x='language')
-        lang.update_layout(title_text='Número de comentarios por idioma')
+        st.write(
+            "En este apartado se analizarán los sentimientos de los comentarios de los huéspedes."
+        )
+        st.write(
+            "Para ello, primero se han identificado los idiomas más repetidos en los comentarios."
+        )
+        lang = px.histogram(languages, x="language")
+        lang.update_layout(title_text="Número de comentarios por idioma")
         st.plotly_chart(lang, use_container_width=True)
         st.markdown("---")
-        st.write("A continuación, se ha realizado un análisis de sentimientos de los comentarios en inglés.")
-        posneuneg = sp.make_subplots(rows=1, cols=3, subplot_titles=("Neutral", "Negative", "Positive"))
+        st.write(
+            "A continuación, se ha realizado un análisis de sentimientos de los comentarios en inglés."
+        )
+        posneuneg = sp.make_subplots(
+            rows=1, cols=3, subplot_titles=("Neutral", "Negative", "Positive")
+        )
 
         colors = {"neutral": "blue", "negative": "red", "positive": "green"}
 
         for idx, sentiment in enumerate(["negative", "neutral", "positive"]):
             data = polarDF[polarDF["Sentiment"] == sentiment]
-            posneuneg.add_trace(go.Bar(
-                x=data["RANGE"],
-                y=data["count_of_Comments"],
-                name=sentiment,
-                marker_color=colors[sentiment],
-                showlegend=False
-            ), row=1, col=idx + 1)
+            posneuneg.add_trace(
+                go.Bar(
+                    x=data["RANGE"],
+                    y=data["count_of_Comments"],
+                    name=sentiment,
+                    marker_color=colors[sentiment],
+                    showlegend=False,
+                ),
+                row=1,
+                col=idx + 1,
+            )
 
         posneuneg.update_layout(
             title="Recuento de comentarios por sentimiento",
             xaxis_title="Rango",
             yaxis_title="Recuento de comentarios",
-)
+        )
 
         posneuneg.update_xaxes(title_text="Range", row=1, col=1)
         posneuneg.update_xaxes(title_text="Range", row=1, col=2)
@@ -641,19 +650,16 @@ def main():
         posneuneg.update_yaxes(title_text="Count of Comments", row=1, col=3)
 
         st.plotly_chart(posneuneg, use_container_width=True)
-        
-        pol = go.Figure(data=[go.Histogram(x=df_reviews_en['compound'], nbinsx=100)])
+
+        pol = go.Figure(data=[go.Histogram(x=df_reviews_en["compound"], nbinsx=100)])
         pol.update_layout(
-            title='Distribución de la polaridad de los comentarios',
-            xaxis_title='compound',
-            yaxis_title='count'
+            title="Distribución de la polaridad de los comentarios",
+            xaxis_title="compound",
+            yaxis_title="count",
         )
         st.plotly_chart(pol, use_container_width=True)
         st.markdown("---")
         wordcloud = Image.open("img/wordcloud.png")
-
-
-
 
         image_path = "img/wordcloud.png"
         img = Image.open(image_path)
@@ -662,7 +668,10 @@ def main():
             "Nube de palabras de los comentarios de los huéspedes en Airbnb en Oporto."
         )
 
-        st.write(f'<p style="text-align: center;">{caption}</p><div style="text-align: center;"><img src="data:image/png;base64,{img_base64}" style="width: 80%;" /></div>', unsafe_allow_html=True)
+        st.write(
+            f'<p style="text-align: center;">{caption}</p><div style="text-align: center;"><img src="data:image/png;base64,{img_base64}" style="width: 80%;" /></div>',
+            unsafe_allow_html=True,
+        )
 
 
 if __name__ == "__main__":
