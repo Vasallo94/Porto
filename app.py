@@ -28,7 +28,6 @@ from streamlit_lottie import st_lottie
 
 from utils.funciones import *
 
-sns.set()
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 # mapas interactivos
@@ -76,6 +75,9 @@ def main():
     # -----------------------------------------------LECTURA DE DATOS Y PREPROCESAMIENTO------------------------------------#
 
     df_cal = pd.read_csv("output/df_cal.csv.gz")
+    languages = pd.read_csv("output/languages.csv")
+    polarDF = pd.read_csv("output/polarDF.csv")
+    df_reviews_en = pd.read_csv("output/df_reviews_en.csv")
     porto_geojson = "http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/visualisations/neighbourhoods.geojson"
     porto_gdf = gpd.read_file(porto_geojson)
     # df_reviews = pd.read_csv('http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/data/reviews.csv.gz', parse_dates=['date'])
@@ -112,10 +114,11 @@ def main():
             "Consejos al turismo",
             "Disponibilidad y precios para el 2023",
             "Reseñas de los huéspedes",
+            "Análisis de los sentimientos en los comentarios",
         ]
     )
 
-    # -------------------------------------------------------TAB 1-----------------------------------------------------#
+    # -------------------------------------------------------TAB 0-----------------------------------------------------#
     tab_plots = tabs[0]  # this is the first tab
     with tab_plots:
         st.title("Una representación visual de los datos sobre el terreno")
@@ -277,7 +280,7 @@ def main():
                 )
             )
 
-            # -------------------------------------------------------TAB 2-----------------------------------------------------#
+            # -------------------------------------------------------TAB 1-----------------------------------------------------#
 
     tab_plots = tabs[1]  # this is the second tab
     with tab_plots:
@@ -373,7 +376,7 @@ def main():
             )
             st.plotly_chart(accomm, use_container_width=True)
 
-        # -------------------------------------------------------TAB 4-----------------------------------------------------#
+        # -------------------------------------------------------TAB 2-----------------------------------------------------#
     tab_plots = tabs[2]  # this is the third tab
     with tab_plots:
         st.title("Consejos al turismo")
@@ -480,7 +483,7 @@ def main():
         )
         st.plotly_chart(sh_v_h, use_container_width=True)
 
-        # -------------------------------------------------------TAB 6-----------------------------------------------------#
+        # -------------------------------------------------------TAB 3-----------------------------------------------------#
     tab_plots = tabs[3]  # this is the third tab
     with tab_plots:
         st.title("Disponibilidad y precio para el 2023:")
@@ -535,7 +538,7 @@ def main():
         )
         st.plotly_chart(precio, use_container_width=True)
 
-        # -------------------------------------------------------TAB 5-----------------------------------------------------#
+        # -------------------------------------------------------TAB 4-----------------------------------------------------#
     tab_plots = tabs[4]  # this is the third tab
     with tab_plots:
         st.title("Notas de los alojamientos")
@@ -597,7 +600,56 @@ def main():
 
         # Show the plot
         st.plotly_chart(scores, use_container_width=True)
+        
+# -------------------------------------------------------TAB 5-----------------------------------------------------#
+        tab_plots = tabs[5]  
+    with tab_plots:
+        st.title("Análisis de los sentimientos en los comentarios")
+        st.write("En este apartado se analizarán los sentimientos de los comentarios de los huéspedes.")
+        st.write("Para ello, primero se han identificado los idiomas más repetidos en los comentarios.")
+        lang = px.histogram(languages, x='language')
+        lang.update_layout(title_text='Número de comentarios por idioma')
+        st.plotly_chart(lang, use_container_width=True)
+        st.markdown("---")
+        st.write("A continuación, se ha realizado un análisis de sentimientos de los comentarios en inglés.")
+        posneuneg = sp.make_subplots(rows=1, cols=3, subplot_titles=("Neutral", "Negative", "Positive"))
 
+        colors = {"neutral": "blue", "negative": "red", "positive": "green"}
+
+        for idx, sentiment in enumerate(["negative", "neutral", "positive"]):
+            data = polarDF[polarDF["Sentiment"] == sentiment]
+            posneuneg.add_trace(go.Bar(
+                x=data["RANGE"],
+                y=data["count_of_Comments"],
+                name=sentiment,
+                marker_color=colors[sentiment],
+                showlegend=False
+            ), row=1, col=idx + 1)
+
+        posneuneg.update_layout(
+            title="Recuento de comentarios por sentimiento",
+            xaxis_title="Rango",
+            yaxis_title="Recuento de comentarios",
+)
+
+        posneuneg.update_xaxes(title_text="Range", row=1, col=1)
+        posneuneg.update_xaxes(title_text="Range", row=1, col=2)
+        posneuneg.update_xaxes(title_text="Range", row=1, col=3)
+
+        posneuneg.update_yaxes(title_text="Count of Comments", row=1, col=1)
+        posneuneg.update_yaxes(title_text="Count of Comments", row=1, col=2)
+        posneuneg.update_yaxes(title_text="Count of Comments", row=1, col=3)
+
+        st.plotly_chart(posneuneg, use_container_width=True)
+        
+        pol = go.Figure(data=[go.Histogram(x=df_reviews_en['compound'], nbinsx=100)])
+        pol.update_layout(
+            title='Distribución de la polaridad de los comentarios',
+            xaxis_title='compound',
+            yaxis_title='count'
+        )
+        st.plotly_chart(pol, use_container_width=True)
+        st.markdown("---")
         wordcloud = Image.open("img/wordcloud.png")
 
 
@@ -607,7 +659,7 @@ def main():
         img = Image.open(image_path)
         img_base64 = image_to_base64(img)
         caption = (
-            "Nube de palabras hecha analizando las palabras más repetidas en los comentarios."
+            "Nube de palabras de los comentarios de los huéspedes en Airbnb en Oporto."
         )
 
         st.write(f'<p style="text-align: center;">{caption}</p><div style="text-align: center;"><img src="data:image/png;base64,{img_base64}" style="width: 80%;" /></div>', unsafe_allow_html=True)
