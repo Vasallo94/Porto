@@ -16,7 +16,8 @@ import requests
 import seaborn as sns
 import streamlit as st
 from branca.colormap import LinearColormap
-from folium.plugins import FastMarkerCluster, FloatImage, HeatMap, MarkerCluster
+from folium.plugins import (FastMarkerCluster, FloatImage, HeatMap,
+                            MarkerCluster)
 from PIL import Image
 from plotly.offline import init_notebook_mode
 from plotly.subplots import make_subplots
@@ -616,7 +617,7 @@ def main():
             "A continuación, se ha realizado un análisis de sentimientos de los comentarios en inglés."
         )
         posneuneg = sp.make_subplots(
-            rows=1, cols=3, subplot_titles=("Neutral", "Negative", "Positive")
+            rows=1, cols=3, subplot_titles=("Negative", "Neutral", "Positive")
         )
 
         colors = {"neutral": "blue", "negative": "red", "positive": "green"}
