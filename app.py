@@ -75,7 +75,7 @@ def main():
     df_cal = pd.read_csv("output/df_cal.csv.gz")
     languages = pd.read_csv("output/languages.csv")
     polarDF = pd.read_csv("output/polarDF.csv")
-    df_reviews_en = pd.read_csv("output/df_reviews_en.csv")
+    df_reviews_en = pd.read_csv("output/df_reviews_en_copy.csv")
     porto_geojson = "http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/visualisations/neighbourhoods.geojson"
     porto_gdf = gpd.read_file(porto_geojson)
     # df_reviews = pd.read_csv('http://data.insideairbnb.com/portugal/norte/porto/2022-12-16/data/reviews.csv.gz', parse_dates=['date'])
