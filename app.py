@@ -646,9 +646,9 @@ def main():
         posneuneg.update_xaxes(title_text="Range", row=1, col=2)
         posneuneg.update_xaxes(title_text="Range", row=1, col=3)
 
-        posneuneg.update_yaxes(title_text="Count of Comments", row=1, col=1)
-        posneuneg.update_yaxes(title_text="Count of Comments", row=1, col=2)
-        posneuneg.update_yaxes(title_text="Count of Comments", row=1, col=3)
+        posneuneg.update_yaxes(title_text="Count of Comments", row=1, col=1, matches='y')
+        posneuneg.update_yaxes(title_text="Count of Comments", row=1, col=2, matches='y')
+        posneuneg.update_yaxes(title_text="Count of Comments", row=1, col=3, matches='y')
 
         st.plotly_chart(posneuneg, use_container_width=True)
 
