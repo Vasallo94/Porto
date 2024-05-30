@@ -146,10 +146,24 @@ def bravas(df, target_column, min_k=2, max_k=15):
 
 
 def impute_missing_values_with_knn(df, n_neighbors):
+    """
+    Impute missing values in a DataFrame using KNN imputer.
+    
+    Parameters:
+    - df: pandas DataFrame with numerical and encoded categorical columns
+    - n_neighbors: int, number of neighbors to use for KNN imputation
+    
+    Returns:
+    - df_imputed: pandas DataFrame with missing values imputed
+    """
     df_imputed = df.copy()
+    
+    # Replace -1 with NaN before imputing
+    df_imputed.replace(-1, np.nan, inplace=True)
+    
     imputer = KNNImputer(n_neighbors=n_neighbors)
-    numeric_columns = df_imputed.select_dtypes(include=["int64", "float64"]).columns
-    df_imputed[numeric_columns] = imputer.fit_transform(df_imputed[numeric_columns])
+    df_imputed[:] = imputer.fit_transform(df_imputed)
+    
     return df_imputed
 
 
