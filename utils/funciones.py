@@ -70,14 +70,20 @@ def fritas(df):
     encoder_info = []  # Initialize a list to store the encoder information
 
     for column in object_columns:
-        le = LabelEncoder()  # Create a new LabelEncoder for each categorical column
-        # Fit and transform the LabelEncoder on the column
-        df_encoded[column] = le.fit_transform(df_encoded[column].astype(str))
+        # Convert the column to a categorical type
+        df_encoded[column] = pd.Categorical(df_encoded[column])
+        
+        # Get the codes and categories
+        df_encoded[column] = df_encoded[column].cat.codes
+        
+        # Replace -1 with NaN to handle missing values
+        df_encoded[column] = df_encoded[column].replace(-1, np.nan)
+        
         encoder_info.append(
             {  # Store the encoder information in a dictionary
                 "column": column,
-                "labels": list(le.classes_),  # List the original labels
-                "codes": list(le.transform(le.classes_)),  # List the encoded codes
+                "labels": list(df[column].astype('category').cat.categories),  # List the original labels
+                "codes": list(range(len(df[column].astype('category').cat.categories))),  # List the encoded codes
             }
         )
 
@@ -152,10 +158,12 @@ def desfritas(df_encoded, encoder_info):
     Given a pandas DataFrame that has been encoded with the `fritas()` function and the encoder
     information dictionary returned by that function, decodes all categorical columns and returns
     a copy of the original DataFrame with the encoded columns replaced by their original values.
-    This function replaces any codes that are not in the original list of labels with -1
+    This function replaces any codes that are not in the original list of labels with -1.
+    
     Parameters:
     - df_encoded: pandas DataFrame
     - encoder_info: list of dicts
+    
     Returns:
     - df_decoded: pandas DataFrame
     """
@@ -165,15 +173,19 @@ def desfritas(df_encoded, encoder_info):
     for encoder in encoder_info:
         column = encoder["column"]
         labels = encoder["labels"]
-        codes = encoder["codes"]
         le = LabelEncoder()  # Create a new LabelEncoder for the column
         le.classes_ = np.array(labels)  # Set the original labels
-        # Replace NaN values in the encoded column with -1
-        df_decoded[column].fillna(-1, inplace=True)
-        # Replace any codes that are not in the original list of labels with -1
-        df_decoded[column].where(df_decoded[column].isin(codes), -1, inplace=True)
-        # Inverse transform the codes
-        df_decoded[column] = le.inverse_transform(df_decoded[column].astype(int))
+        
+        # Detect -1 and convert to NaN for the inverse transformation
+        mask = df_decoded[column] == -1
+        df_decoded[column] = df_decoded[column].where(~mask, other=-1)
+        
+        # Inverse transform the non-NaN values
+        non_nan_mask = df_decoded[column] != -1
+        df_decoded.loc[non_nan_mask, column] = le.inverse_transform(df_decoded.loc[non_nan_mask, column].astype(int))
+        
+        # Convert -1 back to NaN
+        df_decoded[column] = df_decoded[column].replace(-1, np.nan)
 
     return df_decoded
 
