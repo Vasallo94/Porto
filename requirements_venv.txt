@@ -131,7 +131,6 @@ typing_extensions==4.10.0
 tzdata==2024.1
 urllib3==2.2.1
 wcwidth==0.2.13
-Werkzeug==3.0.1
 widgetsnbextension==4.0.10
 wordcloud==1.9.3
 wurlitzer==3.0.3
