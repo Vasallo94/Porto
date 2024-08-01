@@ -126,4 +126,4 @@ wurlitzer==3.0.3
 xxhash==3.4.1
 xyzservices==2023.10.1
 yellowbrick==1.5
-zipp==3.18.0
+zipp==3.19.1
