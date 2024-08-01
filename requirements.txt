@@ -113,7 +113,7 @@ tenacity==8.2.3
 threadpoolctl==3.3.0
 toml==0.10.2
 toolz==0.12.1
-tornado==6.4
+tornado==6.4.1
 traitlets==5.14.2
 tsdownsample==0.1.2
 typing_extensions==4.10.0
