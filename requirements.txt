@@ -96,7 +96,7 @@ rpds-py==0.18.0
 Rtree==1.2.0
 schemdraw==0.15
 scikit-base==0.7.5
-scikit-learn==1.4.1.post1
+scikit-learn==1.5.0
 scikit-plot==0.3.7
 scipy==1.11.4
 seaborn==0.13.2
