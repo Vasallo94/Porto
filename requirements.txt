@@ -118,7 +118,7 @@ traitlets==5.14.2
 tsdownsample==0.1.2
 typing_extensions==4.10.0
 tzdata==2024.1
-urllib3==2.2.1
+urllib3==2.2.2
 wcwidth==0.2.13
 widgetsnbextension==4.0.10
 wordcloud==1.9.3
